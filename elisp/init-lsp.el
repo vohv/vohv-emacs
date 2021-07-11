@@ -2,15 +2,14 @@
 
 (straight-use-package 'eglot)
 
-(defvar +clangd-exec "clangd")
-(defvar +clangd-param (list "--enable-config"
-                            "--clang-tidy"))
+(setq +clangd-exec "clangd")
+(setq +clangd-param (list "--clang-tidy"))
 
 (defun set-eglot-client (mode server-call)
   (add-to-list 'eglot-server-programs `(,mode . ,server-call)))
 
 (with-eval-after-load "eglot"
-  (set-eglot-client 'cc-mode (append (list +clangd-exec) +clangd-param))
+  (set-eglot-client '(c++-mode c-mode) (append (list +clangd-exec) +clangd-param))
   )
 
 (when (executable-find +clangd-exec)

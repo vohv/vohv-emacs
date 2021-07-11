@@ -30,6 +30,7 @@
    '("}" . "C-}")
    '("." . "M-.")
    '("," . "M-,")
+   '("p" . "C-c p")
    ;; window management
    '("w" . other-window)
    '("W" . window-swap-states)
@@ -40,7 +41,6 @@
    '("$" . +change-theme)
    '(";" . comment-dwim)
    '("K" . kill-this-buffer)
-   '("p" . project-find-file)
    '("j" . project-switch-to-buffer)
    '("d" . dired)
    '("b" . switch-to-buffer)

@@ -10,5 +10,4 @@
 
 (blink-cursor-mode -1)
 
-
 (provide 'init-ui)
