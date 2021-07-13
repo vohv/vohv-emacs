@@ -16,7 +16,14 @@
 (add-hook 'after-init-hook 'global-company-mode)
 
 (with-eval-after-load "company"
-  (setq company-backends '(company-dabbrev company-keywords company-files company-capf)))
+  (setq company-backends
+      '((company-files          ; files & directory
+         company-keywords       ; keywords
+         company-capf
+         company-yasnippet
+         )
+        (company-abbrev company-dabbrev)
+        )))
 
 ;;; color-rg
 ;; (straight-use-package '(color-rg :type git :host github :repo "manateelazycat/color-rg"))
