@@ -21,6 +21,7 @@
 
 (doom-modeline-mode 1)
 
-
+(setq column-number-mode t)
+(setq line-number-mode t)
 
 (provide 'init-theme)

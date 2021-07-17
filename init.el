@@ -5,5 +5,6 @@
 (require 'init-lsp)
 (require 'init-edit)
 (require 'init-git)
-(require 'init-projectile)
+(require 'init-project)
 (require 'init-cc)
+(require 'init-org)

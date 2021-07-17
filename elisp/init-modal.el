@@ -30,7 +30,6 @@
    '("}" . "C-}")
    '("." . "M-.")
    '("," . "M-,")
-   '("p" . "C-c p")
    ;; window management
    '("w" . other-window)
    '("W" . window-swap-states)
@@ -45,6 +44,7 @@
    '("d" . dired)
    '("b" . switch-to-buffer)
    '("r" . rg-project)
+   '("p" . find-file-in-project-by-selected)
    '("f" . find-file)
    '("i" . imenu)
    '("a" . "M-x")
