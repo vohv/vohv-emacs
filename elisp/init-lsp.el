@@ -30,6 +30,8 @@
     (cond
      ((use-region-p)
       (eglot-format (region-beginning) (region-end)))
+     ((= (line-beginning-position) (line-end-position))
+      (c-indent-line))
      (t
       (eglot-format (line-beginning-position) (line-end-position)))
      ))

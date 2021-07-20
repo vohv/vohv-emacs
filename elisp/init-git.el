@@ -12,12 +12,13 @@
 (global-set-key (kbd "C-x g b") 'magit-blame)
 (global-set-key (kbd "C-x g l") 'magit-log)
 (global-set-key (kbd "C-x g d") 'magit-diff)
+(global-set-key (kbd "C-x g p") 'magit-project-status)
 
 (autoload #'magit-status "magit" nil t)
 (autoload #'magit-diff "magit" nil t)
 (autoload #'magit-blame "magit" nil t)
 (autoload #'magit-log "magit" nil t)
-
+(autoload #'magit-project-status "magit" nil t)
 ;;; diff-hl
 
 (autoload #'diff-hl-mode "diff-hl")

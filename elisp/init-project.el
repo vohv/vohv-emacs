@@ -18,9 +18,14 @@
 ;;       projectile-sort-order 'recentf
 ;;       projectile-use-git-grep t)
 
+(defun +project-root-function ()
+    (project-root (project-current)))
+
 (straight-use-package 'find-file-in-project)
 (with-eval-after-load "find-file-in-project"
+  (require 'project)
   (when (executable-find "fd")
-    (setq ffip-use-rust-fd t)))
+    (setq ffip-use-rust-fd t))
+  (setq ffip-project-root-function #'+project-root-function))
 
 (provide 'init-project)
