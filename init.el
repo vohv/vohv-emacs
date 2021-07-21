@@ -8,3 +8,4 @@
 (require 'init-project)
 (require 'init-cc)
 (require 'init-org)
+(require 'init-citre)

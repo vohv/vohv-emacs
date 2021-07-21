@@ -6,6 +6,5 @@
                                 (setq-default c-basic-offset 4)))
 (straight-use-package 'modern-cpp-font-lock)
 (modern-c++-font-lock-global-mode)
-
-
+(add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
 (provide 'init-cc)

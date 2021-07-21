@@ -23,5 +23,5 @@
 
 (setq column-number-mode t)
 (setq line-number-mode t)
-
+(setq doom-modeline-vcs-max-length 100)
 (provide 'init-theme)

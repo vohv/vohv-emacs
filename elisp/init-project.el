@@ -19,7 +19,8 @@
 ;;       projectile-use-git-grep t)
 
 (defun +project-root-function ()
-    (project-root (project-current)))
+  (project-root (project-current)))
+(autoload #'+project-root-function "project" nil t)
 
 (straight-use-package 'find-file-in-project)
 (with-eval-after-load "find-file-in-project"

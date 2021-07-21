@@ -30,6 +30,7 @@
    '("}" . "C-}")
    '("." . "M-.")
    '("," . "M-,")
+   '("/" . "M-?")
    ;; window management
    '("w" . other-window)
    '("W" . window-swap-states)
@@ -47,6 +48,8 @@
    '("p" . find-file-in-project-by-selected)
    '("f" . find-file)
    '("i" . imenu)
+   '("n" . flymake-goto-next-error)
+   '("N" . flymake-goto-prev-error)   
    '("a" . "M-x")
    '("v" . "C-x g")
    ;; toggles
