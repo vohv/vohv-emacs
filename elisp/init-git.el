@@ -23,7 +23,6 @@
 
 
 ;; {{ git-gutter
-(global-git-gutter-mode)
 (with-eval-after-load "git-gutter"
   (unless (fboundp 'global-display-line-numbers-mode)
     ;; git-gutter's workaround for linum-mode bug.
@@ -79,6 +78,15 @@ Show the diff between current working code and git head."
   ;; clear the markup right away
   (sit-for 0.1)
   (git-gutter:clear))
+
+(global-set-key (kbd "C-x g u") 'git-gutter-mode)
+(global-set-key (kbd "C-x g =") 'git-gutter:popup-hunk)
+;; Stage current hunk
+(global-set-key (kbd "C-x g S") 'git-gutter:stage-hunk)
+;; Revert current hunk
+(global-set-key (kbd "C-x g r") 'git-gutter:revert-hunk)
+
+(run-with-idle-timer 2 nil #'global-git-gutter-mode)
 ;; }}
 
 ;; {{ speed up magit, @see https://jakemccrary.com/blog/2020/11/14/speeding-up-magit/
@@ -91,14 +99,31 @@ Show the diff between current working code and git head."
     (remove-hook 'magit-status-sections-hook 'magit-insert-unpulled-from-pushremote)
     (remove-hook 'magit-status-sections-hook 'magit-insert-unpulled-from-upstream)
     (remove-hook 'magit-status-sections-hook 'magit-insert-unpushed-to-upstream-or-recent)))
-
-(global-set-key (kbd "C-x g g") 'git-gutter-mode)
-(global-set-key (kbd "C-x g =") 'git-gutter:popup-hunk)
-;; Stage current hunk
-(global-set-key (kbd "C-x g S") 'git-gutter:stage-hunk)
-;; Revert current hunk
-(global-set-key (kbd "C-x g r") 'git-gutter:revert-hunk)
 ;; }}
+
+(defun nonempty-lines (str)
+  "Split STR into lines."
+  (split-string str "[\r\n]+" t))
+
+(defun +git-commit-id ()
+  "Select commit id from current branch."
+  (let* ((git-cmd "git --no-pager log --date=short --pretty=format:'%h|%ad|%s|%an'")
+         (collection (nonempty-lines (shell-command-to-string git-cmd)))
+         (item (completing-read "git log:" collection)))
+    (when item
+      (car (split-string item "|" t)))))
+
+(defun +git-show-commit-internal ()
+  "Show git commit."
+  (let* ((id (+git-commit-id)))
+    (when id
+      (shell-command-to-string (format "git show %s" id)))))
+
+(defun +git-show-commit ()
+  "Show commit using ffip."
+  (interactive)
+  (let* ((ffip-diff-backends '(("Show git commit" . +git-show-commit-internal))))
+    (ffip-show-diff 0)))
 
 ;;; smerge
 (autoload #'smerge-mode "smerge-mode" nil t)
