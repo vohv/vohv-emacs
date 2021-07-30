@@ -3,7 +3,7 @@
 ;; (straight-use-package 'projectile)
 
 ;; (add-hook 'after-init-hook #'projectile-mode)
-;; 
+;;
 ;; (with-eval-after-load "projectile"
 ;;   (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
 ;;   (when (and (not (executable-find "fd"))
@@ -13,14 +13,18 @@
 ;;             (dolist (dir projectile-globally-ignored-directories)
 ;;               (setq rg-cmd (format "%s --glob '!%s'" rg-cmd dir)))
 ;;             (concat "rg -0 --files --color=never --hidden" rg-cmd)))))
-;; 
+;;
 ;; (setq projectile-mode-line-prefix ""
 ;;       projectile-sort-order 'recentf
 ;;       projectile-use-git-grep t)
 
+(straight-use-package '(project-x :type git :host github :repo "karthink/project-x"))
+(with-eval-after-load "project"
+  (project-x-mode 1))
+
 (defun +project-root-function ()
+  (require 'project)
   (project-root (project-current)))
-(autoload #'+project-root-function "project" nil t)
 
 (straight-use-package 'find-file-in-project)
 (with-eval-after-load "find-file-in-project"

@@ -13,19 +13,45 @@
 
 (with-eval-after-load "citre"
   (setq
-   ;; Set these if readtags/ctags is not in your path.
    citre-readtags-program (executable-find "readtags")
    citre-ctags-program (executable-find "ctags")
-   ;; Set this if you use project management plugin like projectile.  It's
-   ;; used for things like displaying paths relatively, see its docstring.
-   citre-project-root-function #'+project-root-function
-   ;; Set this if you want to always use one location to create a tags file.
    citre-default-create-tags-file-location 'global-cache
-   ;; See the "Create tags file" section above to know these options
    citre-use-project-root-when-creating-tags t
-   citre-prompt-language-for-ctags-command t
-   )
-  (setq company-backends '((company-capf company-citre :with company-yasnippet :separate)))
+   citre-prompt-language-for-ctags-command t)
+  (setq-default
+   citre-enable-xref-integration nil
+   citre-enable-capf-integration nil
+   citre-enable-imenu-integration nil)
+  (setq citre-project-root-function #'+project-root-function)
+
+  ;; Integrate with `eglot'
+  (define-advice xref--create-fetcher (:around (fn &rest args) fallback)
+    (let ((fetcher (apply fn args))
+          (citre-fetcher
+           (let ((xref-backend-functions '(citre-xref-backend t)))
+             (ignore xref-backend-functions)
+             (apply fn args))))
+      (lambda ()
+        (or (with-demoted-errors "%s, fallback to citre"
+              (funcall fetcher))
+            (funcall citre-fetcher)))))
+
+  ;; (defun lsp-citre-capf-function ()
+  ;;   "A capf backend that tries lsp first, then Citre."
+  ;;   (let ((lsp-result (eglot-completion-at-point))
+  ;;         (if (and lsp-result
+  ;;                  (try-completion
+  ;;                   (buffer-substring (nth 0 lsp-result)
+  ;;                                     (nth 1 lsp-result))
+  ;;                   (nth 2 lsp-result)))
+  ;;             lsp-result
+  ;;           (citre-completion-at-point)))))
+  ;;
+  ;; (defun enable-lsp-citre-capf-backend ()
+  ;;   "Enable the lsp + Citre capf backend in current buffer."
+  ;;   (add-hook 'completion-at-point-functions #'lsp-citre-capf-function nil t))
+  ;;
+  ;; (add-hook 'citre-mode-hook #'enable-lsp-citre-capf-backend)
   )
 
 (global-set-key (kbd "C-x c j") 'citre-jump+)
@@ -37,32 +63,32 @@
 
 
 ;;; smart jump
-(straight-use-package 'smart-jump)
-
-(autoload #'smart-jump-go "smart-jump" nil t)
-(autoload #'smart-jump-back "smart-jump" nil t )
-(autoload #'smart-jump-references "smart-jump" nil t)
-
-(global-set-key (kbd "M-.") #'smart-jump-go)
-(global-set-key (kbd "M-,") #'smart-jump-back)
-(global-set-key (kbd "M-?") #'smart-jump-references)
-
-(smart-jump-register :modes '(c-mode c++-mode)
-                     :jump-fn 'citre-jump+
-                     :pop-fn 'citre-jump-back
-                     :refs-fn 'citre-jump+
-                     :should-jump t
-                     :heuristic 'point
-                     :async 500
-                     :order 2)
-
-(smart-jump-register :modes '(c-mode c++-mode)
-                     :jump-fn 'xref-find-definitions
-                     :pop-fn 'xref-pop-marker-stack
-                     :refs-fn 'xref-find-references
-                     :should-jump t
-                     :heuristic 'point
-                     :async 500
-                     :order 1)
+;; (straight-use-package 'smart-jump)
+;;
+;; (autoload #'smart-jump-go "smart-jump" nil t)
+;; (autoload #'smart-jump-back "smart-jump" nil t )
+;; (autoload #'smart-jump-references "smart-jump" nil t)
+;;
+;; (global-set-key (kbd "M-.") #'smart-jump-go)
+;; (global-set-key (kbd "M-,") #'smart-jump-back)
+;; (global-set-key (kbd "M-?") #'smart-jump-references)
+;;
+;; (smart-jump-register :modes '(c-mode c++-mode)
+;;                      :jump-fn 'citre-jump+
+;;                      :pop-fn 'citre-jump-back
+;;                      :refs-fn 'citre-jump+
+;;                      :should-jump t
+;;                      :heuristic 'point
+;;                      :async 500
+;;                      :order 2)
+;;
+;; (smart-jump-register :modes '(c-mode c++-mode)
+;;                      :jump-fn 'xref-find-definitions
+;;                      :pop-fn 'xref-pop-marker-stack
+;;                      :refs-fn 'xref-find-references
+;;                      :should-jump t
+;;                      :heuristic 'point
+;;                      :async 500
+;;                      :order 1)
 
 (provide 'init-citre)

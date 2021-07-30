@@ -9,3 +9,4 @@
 (require 'init-cc)
 (require 'init-org)
 (require 'init-citre)
+(require 'init-sh)
