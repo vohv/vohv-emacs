@@ -1,4 +1,5 @@
 ;;; -*- lexical-binding: t; -*-
+(require 'init-utils)
 (require 'init-modal)
 (require 'init-theme)
 (require 'init-completion)

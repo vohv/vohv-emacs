@@ -4,6 +4,7 @@
 (straight-use-package 'smerge-mode)
 (straight-use-package 'git-gutter)
 (straight-use-package 'vc-msg)
+(straight-use-package 'git-timemachine)
 
 (with-eval-after-load "magit"
   (define-key transient-base-map (kbd "<escape>") #'transient-quit-one))
@@ -101,10 +102,6 @@ Show the diff between current working code and git head."
     (remove-hook 'magit-status-sections-hook 'magit-insert-unpushed-to-upstream-or-recent)))
 ;; }}
 
-(defun nonempty-lines (str)
-  "Split STR into lines."
-  (split-string str "[\r\n]+" t))
-
 (defun +git-commit-id ()
   "Select commit id from current branch."
   (let* ((git-cmd "git --no-pager log --date=short --pretty=format:'%h|%ad|%s|%an'")
@@ -124,6 +121,27 @@ Show the diff between current working code and git head."
   (interactive)
   (let* ((ffip-diff-backends '(("Show git commit" . +git-show-commit-internal))))
     (ffip-show-diff 0)))
+
+;; {{ git-timemachine
+(defun +git-timemachine-show-selected-revision ()
+  "Show last (current) revision of file."
+  (interactive)
+  (let*
+      (
+       (collection (mapcar (lambda (rev)
+                             `(,(concat (substring-no-properties (nth 0 rev) 0 7) "|" (nth 5 rev) "|" (nth 6 rev)) . ,rev))
+                           (git-timemachine--revisions)))
+       (rev (+completing-read-alist-value "commits:" collection))
+       )
+    (when rev
+      (git-timemachine-show-revision rev))))
+
+(defun +git-timemachine ()
+  "Open git snapshot with the selected version."
+  (interactive)
+  (+ensure 'git-timemachine)
+  (git-timemachine--start #'+git-timemachine-show-selected-revision))
+;; }}
 
 ;;; smerge
 (autoload #'smerge-mode "smerge-mode" nil t)
