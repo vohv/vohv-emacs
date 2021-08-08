@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: dout
+# key: dout
+# --
+dout($1) << $0 << dendl;
