@@ -9,7 +9,7 @@
   (setq doom-themes-enable-bold t
         doom-themes-enable-italic t)
 
-  (load-theme 'doom-one t)
+  (load-theme 'doom-vibrant t)
 
   (doom-themes-visual-bell-config)
   (doom-themes-org-config))
@@ -19,9 +19,10 @@
 ;;; modeline
 (straight-use-package 'doom-modeline)
 
+(with-eval-after-load "doom-modeline"
+  (setq doom-modeline-vcs-max-length 100)
+  (setq doom-modeline-icon nil))
+
 (doom-modeline-mode 1)
 
-(setq column-number-mode t)
-(setq line-number-mode t)
-(setq doom-modeline-vcs-max-length 100)
 (provide 'init-theme)

@@ -12,5 +12,5 @@
 
 (with-eval-after-load "org"
   (+org-babel-setup))
-
+(setq browse-url-browser-function 'browse-url-default-browser)
 (provide 'init-org)

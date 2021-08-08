@@ -24,7 +24,10 @@
 
 (defun +project-root-function ()
   (require 'project)
-  (project-root (project-current)))
+  (let ((cur-proj (project-current)))
+    (if cur-proj
+        (project-root (project-current))
+      nil)))
 
 (straight-use-package 'find-file-in-project)
 (with-eval-after-load "find-file-in-project"

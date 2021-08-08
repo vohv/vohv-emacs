@@ -7,3 +7,5 @@
 (require 'init-gc)
 (require 'init-ui)
 (require 'init-defaults)
+
+(require 'init-font)
