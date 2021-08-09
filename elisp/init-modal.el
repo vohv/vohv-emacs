@@ -159,6 +159,7 @@
   (add-to-list 'meow-mode-state-list '(authinfo-mode . normal))
   (add-to-list 'meow-mode-state-list '(Custom-mode . normal))
   (add-to-list 'meow-mode-state-list '(cider-test-report-mode . normal))
+  (add-to-list 'meow-mode-state-list '(comint-mode . normal))
   (add-to-list 'meow-grab-fill-commands 'eval-expression)
   (setq meow-cursor-type-keypad 'box)
   (setq meow-cursor-type-insert '(bar . 2))

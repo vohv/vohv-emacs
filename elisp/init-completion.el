@@ -9,6 +9,10 @@
 (straight-use-package 'prescient)
 (straight-use-package 'yasnippet)
 
+(straight-use-package 'marginalia)
+(define-key minibuffer-local-map (kbd "M-A") #'marginalia-cycle)
+(marginalia-mode)
+
 ;;; yasnippet
 
 (autoload #'yas-minor-mode "yasnippet")
