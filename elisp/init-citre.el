@@ -22,7 +22,8 @@
    citre-enable-xref-integration nil
    citre-enable-capf-integration nil
    citre-enable-imenu-integration nil)
-  (setq citre-project-root-function #'+project-root-function)
+  (require 'projectile)
+  (setq citre-project-root-function #'projectile-project-root)
 
   ;; Integrate with `eglot'
   (define-advice xref--create-fetcher (:around (fn &rest args) fallback)

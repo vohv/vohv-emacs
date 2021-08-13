@@ -1,39 +1,32 @@
 ;;; -*- lexical-binding: t -*-
 
-;; (straight-use-package 'projectile)
+(straight-use-package 'projectile)
 
-;; (add-hook 'after-init-hook #'projectile-mode)
-;;
-;; (with-eval-after-load "projectile"
-;;   (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
-;;   (when (and (not (executable-find "fd"))
-;;              (executable-find "rg"))
-;;     (setq projectile-generic-command
-;;           (let ((rg-cmd ""))
-;;             (dolist (dir projectile-globally-ignored-directories)
-;;               (setq rg-cmd (format "%s --glob '!%s'" rg-cmd dir)))
-;;             (concat "rg -0 --files --color=never --hidden" rg-cmd)))))
-;;
-;; (setq projectile-mode-line-prefix ""
-;;       projectile-sort-order 'recentf
-;;       projectile-use-git-grep t)
+(add-hook 'after-init-hook #'projectile-mode)
+
+(with-eval-after-load "projectile"
+  (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
+  (when (and (not (executable-find "fd"))
+             (executable-find "rg"))
+    (setq projectile-generic-command
+          (let ((rg-cmd ""))
+            (dolist (dir projectile-globally-ignored-directories)
+              (setq rg-cmd (format "%s --glob '!%s'" rg-cmd dir)))
+            (concat "rg -0 --files --color=never --hidden" rg-cmd)))))
+
+(setq projectile-mode-line-prefix ""
+      projectile-sort-order 'recentf
+      projectile-use-git-grep t)
 
 (straight-use-package '(project-x :type git :host github :repo "karthink/project-x"))
 (with-eval-after-load "project"
   (project-x-mode 1))
-
-(defun +project-root-function ()
-  (require 'project)
-  (let ((cur-proj (project-current)))
-    (if cur-proj
-        (project-root (project-current))
-      nil)))
 
 (straight-use-package 'find-file-in-project)
 (with-eval-after-load "find-file-in-project"
   (require 'project)
   (when (executable-find "fd")
     (setq ffip-use-rust-fd t))
-  (setq ffip-project-root-function #'+project-root-function))
+  (setq ffip-project-root-function #'projectile-project-root))
 
 (provide 'init-project)

@@ -1,17 +1,7 @@
 ;;; -*- lexical-binding: t -*-
 
-;;; selectrum
-(straight-use-package 'selectrum)
-(straight-use-package 'selectrum-prescient)
 (straight-use-package 'company)
-(straight-use-package 'corfu)
-(straight-use-package 'rg)
-(straight-use-package 'prescient)
 (straight-use-package 'yasnippet)
-
-(straight-use-package 'marginalia)
-(define-key minibuffer-local-map (kbd "M-A") #'marginalia-cycle)
-(marginalia-mode)
 
 ;;; yasnippet
 
@@ -72,6 +62,11 @@ In that case, insert the number."
   (unless (and (stringp prefix) (string-match-p "\\`[0-9]+\\'" prefix))
     (funcall orig-fn prefix)))
 
+(defun +complete ()
+  (interactive)
+  (or (yas/expand)
+      (company-indent-or-complete-common nil)))
+
 (with-eval-after-load "company"
   (advice-add 'company--good-prefix-p :around #'ora--company-good-prefix-p)
 
@@ -82,39 +77,10 @@ In that case, insert the number."
                           (interactive)
                           (company-abort)
                           (self-insert-command 1)))
-    (define-key map (kbd "<return>") nil)))
+    (define-key map (kbd "<return>") nil))
+  (define-key company-mode-map [remap indent-for-tab-command] '+complete)
+  )
 
 (autoload #'company-mode "company")
-
-;;; selectrum
-
-(require 'selectrum)
-(require 'selectrum-prescient)
-(selectrum-mode t)
-(selectrum-prescient-mode t)
-
-(defun +minibuffer-backward-delete ()
-  (interactive)
-  (delete-region
-   (or
-    (save-mark-and-excursion
-      (while (equal ?/ (char-before)) (backward-char))
-      (when-let ((p (re-search-backward "/" (line-beginning-position) t)))
-        (1+ p)))
-    (save-mark-and-excursion (backward-word) (point)))
-   (point)))
-
-(with-eval-after-load "selectrum"
-  (define-key selectrum-minibuffer-map (kbd "M-DEL") #'+minibuffer-backward-delete)
-  (define-key selectrum-minibuffer-map (kbd "{") #'selectrum-previous-candidate)
-  (define-key selectrum-minibuffer-map (kbd "}") #'selectrum-next-candidate)
-  (define-key selectrum-minibuffer-map (kbd "[") #'previous-history-element)
-  (define-key selectrum-minibuffer-map (kbd "]") #'next-history-element))
-
-(autoload #'rg-project "rg" nil t)
-
-(with-eval-after-load "wgrep"
-  (define-key wgrep-mode-map (kbd "C-c C-c") #'wgrep-finish-edit)
-  (setq wgrep-auto-save-buffer t))
 
 (provide 'init-completion)

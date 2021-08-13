@@ -6,13 +6,12 @@
 (autoload #'flymake-mode "flymake" nil t)
 
 (with-eval-after-load "flymake"
-  (define-key flymake-mode-map (kbd "C-c C-b") #'flymake-show-diagnostics-buffer)
-  ;; (define-key flymake-mode-map (kbd "M-n") 'flymake-goto-next-error)
-  ;; (define-key flymake-mode-map (kbd "M-p") 'flymake-goto-prev-error)
+  (define-key flymake-mode-map (kbd "C-c C-b") #'consult-flymake)
   )
 
 (setq +clangd-exec "clangd")
 (setq +clangd-param (list "--clang-tidy"
+                          "--enable-config"
                           "--header-insertion=never"
                           "--pch-storage=memory"))
 
@@ -37,10 +36,10 @@
      ))
 
   (set-eglot-client '(c++-mode c-mode) (append (list +clangd-exec) +clangd-param))
-  (define-key eglot-mode-map (kbd "TAB") #'+eglot-format-dwim)
+  (define-key eglot-mode-map (kbd "C-c C-f") #'+eglot-format-dwim)
   )
 
-(when (executable-find +clangd-exec)
-  (add-hook 'c-mode-common-hook 'eglot-ensure))
+;; (when (executable-find +clangd-exec)
+;;   (add-hook 'c-mode-common-hook 'eglot-ensure))
 
 (provide 'init-lsp)

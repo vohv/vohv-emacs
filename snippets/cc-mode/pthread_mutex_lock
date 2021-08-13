@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: pthread_mutex_lock
+# key: pmutl
+# --
+pthread_mutex_lock(${1:&mut});$0

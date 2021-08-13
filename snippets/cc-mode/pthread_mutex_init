@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: pthread_mutex_init
+# key: pmuti
+# --
+pthread_mutex_init(${1:&mut}, {$2:nullptr});$0

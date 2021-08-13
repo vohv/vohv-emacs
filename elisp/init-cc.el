@@ -7,4 +7,7 @@
 (straight-use-package 'modern-cpp-font-lock)
 (modern-c++-font-lock-global-mode)
 (add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
+
+(with-eval-after-load "cc-mode"
+  (define-key c-mode-base-map (kbd "C-c C-z") '+popup-which-function))
 (provide 'init-cc)

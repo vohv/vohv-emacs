@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: pthread_mutex_unlock
+# key: pmutu
+# --
+pthread_mutex_unlock(${1:&mut});$0

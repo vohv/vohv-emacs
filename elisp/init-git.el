@@ -73,6 +73,13 @@
   (interactive)
   (+ensure 'git-timemachine)
   (git-timemachine--start #'+git-timemachine-show-selected-revision))
+
+(defun +git-timemachine-hook-function ()
+  (when (bound-and-true-p meow-mode)
+      (meow--switch-state 'motion)))
+
+(with-eval-after-load "git-timemachine"
+  (add-hook 'git-timemachine-mode-hook '+git-timemachine-hook-function))
 ;; }}
 
 ;;; smerge

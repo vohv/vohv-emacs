@@ -31,6 +31,7 @@
    '("." . "M-.")
    '("," . "M-,")
    '("/" . "M-?")
+   '("l" . "C-c ^")
    ;; window management
    '("w" . other-window)
    '("W" . window-swap-states)
@@ -44,7 +45,7 @@
    '("j" . project-switch-to-buffer)
    '("d" . dired)
    '("b" . switch-to-buffer)
-   '("r" . rg-project)
+   '("r" . +consult-ripgrep-dwim)
    '("p" . find-file-in-project-by-selected)
    '("f" . find-file)
    '("i" . imenu)

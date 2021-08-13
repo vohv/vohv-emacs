@@ -13,3 +13,4 @@
 (require 'init-sh)
 (require 'init-rime)
 (require 'init-debug)
+(require 'init-minibuffer)

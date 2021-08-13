@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: pthread_mutex_destory
+# key: pmutd
+# --
+pthread_mutex_destory(${1:&mut});$0
