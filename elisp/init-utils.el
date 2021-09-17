@@ -16,7 +16,7 @@
 
 (defun +open-config ()
   (interactive)
-  (find-file (expand-file-name "init.el" user-emacs-directory)))
+  (find-file (locate-user-emacs-file "init.el")))
 
 
 (defun +copy-yank-str (msg &optional clipboard-only)

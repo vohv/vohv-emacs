@@ -1,76 +1,70 @@
 ;;; -*- lexical-binding: t -*-
 
-(straight-use-package 'selectrum)
-(straight-use-package 'selectrum-prescient)
 (straight-use-package 'orderless)
+(straight-use-package 'vertico)
+(straight-use-package 'savehist)
 (straight-use-package 'embark)
 (straight-use-package 'consult)
-(straight-use-package 'projectile)
 (straight-use-package 'embark-consult)
 (straight-use-package 'marginalia)
-(straight-use-package 'rg)
+(straight-use-package 'affe)
 
-(require 'prescient)
-(selectrum-mode +1)
-(prescient-persist-mode 1)
-(selectrum-prescient-mode +1)
 
-(with-eval-after-load 'selectrum
+(add-hook 'after-init-hook 'vertico-mode)
+
+(require 'orderless)
+(with-eval-after-load "vertico"
   (require 'orderless))
 
-(defun +use-orderless-in-minbuffer ()
+(defun +use-orderless-in-minibuffer ()
   (setq-local completion-styles '(substring orderless)))
 
-(add-hook 'minibuffer-setup-hook '+use-orderless-in-minbuffer)
+(add-hook 'minibuffer-setup- '+use-orderless-in-minibuffer)
 
 (require 'embark)
-(with-eval-after-load "selectrum"
-  (define-key selectrum-minibuffer-map (kbd "C-c C-o") 'embark-export)
-  (define-key selectrum-minibuffer-map (kbd "C-c C-c") 'embark-act))
+(with-eval-after-load "vertico"
+  (define-key vertico-map (kbd "C-c C-o") 'embark-export)
+  (define-key vertico-map (kbd "C-c C-c") 'embark-act)
+  )
 
 (require 'consult)
-(defmacro +no-consult-preview (&rest cmds)
-  `(with-eval-after-load "consult"
-     (consult-customize ,@cmds :preview-key (kbd "M-e"))))
-
-(+no-consult-preview
- consult-ripgrep
- consult-git-grep consult-grep
- consult-bookmark consult-recent-file consult-xref
- consult--source-file consult--source-project-file consult--source-bookmark)
 
 (require 'projectile)
 (setq-default consult-project-root-function 'projectile-project-root)
 
-(defun +consult-ripgrep-dwim (&optional dir initial)
-  (interactive (list prefix-arg (when-let ((s (symbol-at-point)))
-                                  (symbol-name s))))
-  (consult-ripgrep dir initial))
+(require 'affe)
+(when (executable-find "rg")
+  (defun +affe-grep-at-point (&optional dir initial)
+    (interactive (list prefix-arg (when-let ((s (symbol-at-point)))
+                                    (symbol-name s))))
+    (affe-grep dir initial))
+  ;; (global-set-key [remap rgrep] '+affe-grep-at-point)
+  )
+
+(straight-use-package '(color-rg :type git :host github :repo "manateelazycat/color-rg"))
+(require 'color-rg)
+(defun +color-rg-switch-normal (origin-fun &rest args)
+  (apply origin-fun args)
+  (meow--switch-state 'normal))
+(advice-add 'color-rg-switch-to-edit-mode :around #'+color-rg-switch-normal)
+
+(defun +color-rg-switch-motion (origin-fun &rest args)
+  (apply origin-fun args)
+  (meow--switch-state 'motion))
+(advice-add 'color-rg-apply-changed :around #'+color-rg-switch-motion)
+
+
+(global-set-key [remap rgrep] 'color-rg-search-project-with-type)
 
 (global-set-key [remap switch-to-buffer] 'consult-buffer)
 (global-set-key [remap switch-to-buffer-other-window] 'consult-buffer-other-window)
 (global-set-key [remap switch-to-buffer-other-frame] 'consult-buffer-other-frame)
-(global-set-key [remap imenu] 'consult-imenu)
 (global-set-key [remap goto-line] 'consult-goto-line)
 
 (with-eval-after-load "embark"
   (require 'embark-consult)
   (add-hook 'embark-collect-mode-hook 'embark-consult-preview-minor-mode))
 
-(require 'marginalia)
 (add-hook 'after-init-hook 'marginalia-mode)
-
-(with-eval-after-load "wgrep"
-  (define-key wgrep-mode-map (kbd "C-c C-c") #'wgrep-finish-edit)
-  (setq wgrep-auto-save-buffer t))
-
-(defun my--push-point-to-xref-marker-stack (&rest r)
-  (xref-push-marker-stack (point-marker)))
-(dolist (func '(find-function
-                projectile-grep
-                citre-jump
-                consult-imenu
-                consult-ripgrep))
-  (advice-add func :before 'my--push-point-to-xref-marker-stack))
 
 (provide 'init-minibuffer)

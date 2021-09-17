@@ -80,7 +80,7 @@
  ;; Firefox as default browser
  browse-url-browser-function 'browse-url-firefox
  ;; Custom file path
- custom-file (expand-file-name "custom.el" user-emacs-directory)
+ custom-file (locate-user-emacs-file "custom.el")
  ;; prefer y or n
  y-or-n-p-use-read-key t
  ;; always follow link

@@ -92,4 +92,16 @@
 ;;                      :async 500
 ;;                      :order 1)
 
+;;; xref
+(autoload #'xref-push-marker-stack "xref" "" nil)
+(defun my--push-point-to-xref-marker-stack (&rest r)
+  (xref-push-marker-stack (point-marker)))
+(dolist (func '(find-function
+                projectile-grep
+                citre-jump
+                consult-imenu
+                consult-ripgrep
+                color-rg-search-project-with-type))
+  (advice-add func :before 'my--push-point-to-xref-marker-stack))
+
 (provide 'init-citre)

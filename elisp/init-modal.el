@@ -45,12 +45,12 @@
    '("j" . project-switch-to-buffer)
    '("d" . dired)
    '("b" . switch-to-buffer)
-   '("r" . +consult-ripgrep-dwim)
+   '("r" . rgrep)
    '("p" . find-file-in-project-by-selected)
    '("f" . find-file)
    '("i" . imenu)
    '("n" . flymake-goto-next-error)
-   '("N" . flymake-goto-prev-error)   
+   '("N" . flymake-goto-prev-error)
    '("a" . "M-x")
    '("v" . "C-x g")
    ;; toggles
@@ -140,7 +140,7 @@
  meow-keypad-describe-delay 0.5
  meow-select-on-change t
  meow-cursor-type-normal 'box
- meow-cursor-type-insert '(bar . 4)
+ meow-cursor-type-insert '(bar . 2)
  meow-selection-command-fallback '((meow-replace . meow-page-up)
                                    (meow-change . meow-change-char)
                                    (meow-save . meow-save-empty)
@@ -161,9 +161,10 @@
   (add-to-list 'meow-mode-state-list '(Custom-mode . normal))
   (add-to-list 'meow-mode-state-list '(cider-test-report-mode . normal))
   (add-to-list 'meow-mode-state-list '(comint-mode . normal))
+  (add-to-list 'meow-mode-state-list '(color-rg-mode . motion))
+
   (add-to-list 'meow-grab-fill-commands 'eval-expression)
-  (setq meow-cursor-type-keypad 'box)
-  (setq meow-cursor-type-insert '(bar . 2))
+
   ;; use << and >> to select to bol/eol
   (add-to-list 'meow-char-thing-table '(?> . line))
   (add-to-list 'meow-char-thing-table '(?< . line))
@@ -172,4 +173,11 @@
   ;; add indicator to modeline
   (meow-setup-indicator))
 
+
+;; (straight-use-package 'key-chord)
+;; (key-chord-mode 1)
+;; (add-hook 'meow-insert-mode-hook '(lambda ()
+;;                                     (key-chord-define-local "jk" #'meow-insert-exit)))
+;; (add-hook 'meow-normal-mode-hook '(lambda ()
+;;                                     (key-chord-define-local "jk" #'ignore)))
 (provide 'init-modal)
