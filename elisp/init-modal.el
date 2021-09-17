@@ -31,7 +31,6 @@
    '("." . "M-.")
    '("," . "M-,")
    '("/" . "M-?")
-   '("l" . "C-c ^")
    ;; window management
    '("w" . other-window)
    '("W" . window-swap-states)
@@ -39,7 +38,6 @@
    '("s" . split-window-right)
    '("-" . split-window-below)
    ;; high frequency commands
-   '("$" . +change-theme)
    '(";" . comment-dwim)
    '("K" . kill-this-buffer)
    '("j" . project-switch-to-buffer)
@@ -49,10 +47,10 @@
    '("p" . find-file-in-project-by-selected)
    '("f" . find-file)
    '("i" . imenu)
-   '("n" . flymake-goto-next-error)
-   '("N" . flymake-goto-prev-error)
    '("a" . "M-x")
    '("v" . "C-x g")
+   '("=" . "C-c ^")
+   '("n" . "C-x M-n")
    ;; toggles
    '("L" . display-line-numbers-mode)
    '("S" . smartparens-strict-mode)

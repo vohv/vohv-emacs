@@ -2,7 +2,7 @@
 
 
 (defvar +font-family "Fira Code")
-(defvar +ufont-family "Microsoft YaHei")
+(defvar +ufont-family "WenQuanYi Micro Hei")
 (defvar +fixed-pitch-family "Sarasa Mono SC")
 (defvar +variable-pitch-family "Sarasa Gothic SC")
 (defvar +font-size 11)
