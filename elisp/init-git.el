@@ -2,8 +2,6 @@
 
 (straight-use-package 'magit)
 (straight-use-package 'smerge-mode)
-(straight-use-package 'git-gutter)
-(straight-use-package 'vc-msg)
 (straight-use-package 'git-timemachine)
 
 (with-eval-after-load "magit"
@@ -86,4 +84,7 @@
 (autoload #'smerge-mode "smerge-mode" nil t)
 (add-hook 'find-file-hook 'smerge-mode)
 
+;;; diff hl
+(straight-use-package 'diff-hl)
+(add-hook 'find-file-hook 'diff-hl-margin-mode)
 (provide 'init-git)
