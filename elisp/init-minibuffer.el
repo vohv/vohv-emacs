@@ -1,48 +1,56 @@
 ;;; -*- lexical-binding: t -*-
 
 (straight-use-package 'orderless)
-(straight-use-package 'vertico)
-(straight-use-package 'savehist)
+(straight-use-package 'selectrum)
+(straight-use-package 'selectrum-prescient)
 (straight-use-package 'embark)
 (straight-use-package 'consult)
 (straight-use-package 'embark-consult)
 (straight-use-package 'marginalia)
-(straight-use-package 'affe)
 
-
-(add-hook 'after-init-hook 'vertico-mode)
+(require 'selectrum)
+(require 'selectrum-prescient)
+(add-hook 'after-init-hook (lambda () (selectrum-mode t)))
+(add-hook 'after-init-hook (lambda () (selectrum-prescient-mode t)))
 
 (require 'orderless)
-(with-eval-after-load "vertico"
-  (require 'orderless))
 
+;;; orderless
+(with-eval-after-load "selectrum"
+  (require 'orderless))
 (defun +use-orderless-in-minibuffer ()
   (setq-local completion-styles '(substring orderless)))
+(add-hook 'minibuffer-setup-hook '+use-orderless-in-minibuffer)
 
-(add-hook 'minibuffer-setup- '+use-orderless-in-minibuffer)
-
+;;; selectrum
 (require 'embark)
-(with-eval-after-load "vertico"
-  (define-key vertico-map (kbd "C-c C-o") 'embark-export)
-  (define-key vertico-map (kbd "C-c C-c") 'embark-act)
-  )
+(with-eval-after-load "selectrum"
+  (define-key selectrum-minibuffer-map (kbd "C-c C-o") 'embark-export)
+  (define-key selectrum-minibuffer-map (kbd "C-c C-c") 'embark-act))
 
+;;; embark
+(with-eval-after-load "embark"
+  (require 'embark-consult)
+  (add-hook 'embark-collect-mode-hook 'embark-consult-preview-minor-mode))
+
+;;; consult
 (require 'consult)
+(global-set-key [remap switch-to-buffer] 'consult-buffer)
+(global-set-key [remap switch-to-buffer-other-window] 'consult-buffer-other-window)
+(global-set-key [remap switch-to-buffer-other-frame] 'consult-buffer-other-frame)
+(global-set-key [remap goto-line] 'consult-goto-line)
 
+;;; marginalia
+(add-hook 'after-init-hook 'marginalia-mode)
+
+;;; projectile
 (require 'projectile)
 (setq-default consult-project-root-function 'projectile-project-root)
 
-(require 'affe)
-(when (executable-find "rg")
-  (defun +affe-grep-at-point (&optional dir initial)
-    (interactive (list prefix-arg (when-let ((s (symbol-at-point)))
-                                    (symbol-name s))))
-    (affe-grep dir initial))
-  ;; (global-set-key [remap rgrep] '+affe-grep-at-point)
-  )
-
+;;; color rg
 (straight-use-package '(color-rg :type git :host github :repo "manateelazycat/color-rg"))
 (require 'color-rg)
+
 (defun +color-rg-switch-normal (origin-fun &rest args)
   (apply origin-fun args)
   (meow--switch-state 'normal))
@@ -53,18 +61,6 @@
   (meow--switch-state 'motion))
 (advice-add 'color-rg-apply-changed :around #'+color-rg-switch-motion)
 
-
 (global-set-key [remap rgrep] 'color-rg-search-project-with-type)
-
-(global-set-key [remap switch-to-buffer] 'consult-buffer)
-(global-set-key [remap switch-to-buffer-other-window] 'consult-buffer-other-window)
-(global-set-key [remap switch-to-buffer-other-frame] 'consult-buffer-other-frame)
-(global-set-key [remap goto-line] 'consult-goto-line)
-
-(with-eval-after-load "embark"
-  (require 'embark-consult)
-  (add-hook 'embark-collect-mode-hook 'embark-consult-preview-minor-mode))
-
-(add-hook 'after-init-hook 'marginalia-mode)
 
 (provide 'init-minibuffer)

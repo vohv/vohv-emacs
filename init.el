@@ -23,5 +23,4 @@
 (require 'init-rime)
 (require 'init-debug)
 (require 'init-minibuffer)
-(require 'init-company)
 (require 'init-builtin)

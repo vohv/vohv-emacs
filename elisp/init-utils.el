@@ -56,4 +56,12 @@ This function is slow, so we have to use cache."
             (cons (buffer-name) file-name))
       file-name)))
 
+(defun +profile-M-x ()
+  (unwind-protect
+      (progn
+        (require 'profiler)
+        (profiler-start 'cpu)
+        (call-interactively (key-binding (kbd"M-x"))))
+    (profiler-report)))
+
 (provide 'init-utils)
