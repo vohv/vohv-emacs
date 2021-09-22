@@ -72,6 +72,9 @@
   (define-key company-template-nav-map (kbd "RET") 'company-template-forward-field)
   (define-key company-template-nav-map [return] 'company-template-forward-field)
   (define-key company-template-nav-map (kbd "TAB") nil)
-  (define-key company-template-nav-map [tab] nil))
+  (define-key company-template-nav-map [tab] nil)
+
+  (setq company-backends (delete 'company-clang company-backends))
+  )
 
 (provide 'init-completion)
