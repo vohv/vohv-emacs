@@ -1,8 +1,35 @@
 ;;; -*- lexical-binding: t -*-
 
+(straight-use-package 'htmlize)
+(straight-use-package '(org-roam
+                        :host github
+                        :repo "org-roam/org-roam"
+                        :files (:defaults "extensions/*")))
+(straight-use-package 'org-superstar)
+(straight-use-package 'ob-restclient)
+(straight-use-package '(org-html-themify
+                        :type git
+                        :host github
+                        :repo "DogLooksGood/org-html-themify"
+                        :files ("*.el" "*.js" "*.css")))
+
+(autoload 'org-html-themify-mode "org-html-themify" "" t nil)
+(add-hook 'org-mode-hook 'org-html-themify-mode)
+(setq org-html-themify-themes
+        '((dark . doom-one)
+          (light . doom-one-light)))
+
+(with-eval-after-load "org-html-themify"
+  (require 'hl-line))
+
+(add-hook 'org-mode-hook (lambda () (org-superstar-mode 1)))
+
 (setq org-default-notes-file "~/org/inbox.org")
 (setq org-agenda-files '("~/org/inbox.org"
-                         "~/org/gtd.org"))
+                         "~/org/todo.org"
+                         "~/org/project.org"
+                         "~/org/daily/"))
+
 
 (define-key global-map (kbd "C-c l") 'org-store-link)
 (define-key global-map (kbd "C-c a") 'org-agenda)
@@ -25,8 +52,8 @@
       org-fast-tag-selection-single-key 'expert
       org-html-validation-link nil
       org-export-kill-product-buffer-when-displayed t
-      org-tags-column 80)
-
+      org-tags-column 80
+      org-agenda-start-with-log-mode t)
 ;; Re-align tags when window shape changes
 (with-eval-after-load 'org-agenda
   (add-hook 'org-agenda-mode-hook
@@ -247,8 +274,6 @@
 (setq browse-url-browser-function 'browse-url-default-browser)
 
 ;;; Org roam
-(straight-use-package '(org-roam :host github :repo "org-roam/org-roam"
-                                 :files (:defaults "extensions/*")))
 (setq
  org-roam-v2-ack t
  org-roam-directory "~/org")

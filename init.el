@@ -1,5 +1,9 @@
 ;;; -*- lexical-binding: t; -*-
 
+(straight-use-package 'benchmark-init)
+(require 'benchmark-init)
+(add-hook 'after-init-hook 'benchmark-init/deactivate)
+
 (setq gc-cons-threshold most-positive-fixnum
       gc-cons-percentage 0.5)
 (add-hook 'emacs-startup-hook

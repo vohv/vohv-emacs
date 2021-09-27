@@ -99,6 +99,11 @@
  ;; disable input method in pgtk
  pgtk-use-im-context-on-new-connection nil)
 
+(add-hook 'after-init-hook
+           '(lambda ()
+              (when (window-system)
+                (cd "~"))))
+
 (fset 'yes-or-no-p 'y-or-n-p)
 
 (add-hook 'prog-mode-hook 'visual-line-mode)

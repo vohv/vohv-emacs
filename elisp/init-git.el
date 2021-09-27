@@ -86,5 +86,8 @@
 
 ;;; diff hl
 (straight-use-package 'diff-hl)
-(add-hook 'find-file-hook 'diff-hl-margin-mode)
+(global-diff-hl-mode)
+(unless (window-system)
+  (diff-hl-margin-mode +1)
+  )
 (provide 'init-git)
