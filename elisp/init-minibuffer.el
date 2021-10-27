@@ -1,32 +1,26 @@
 ;;; -*- lexical-binding: t -*-
 
 (straight-use-package 'orderless)
-(straight-use-package 'selectrum)
-(straight-use-package 'selectrum-prescient)
+(straight-use-package 'vertico)
 (straight-use-package 'embark)
 (straight-use-package 'consult)
 (straight-use-package 'embark-consult)
 (straight-use-package 'marginalia)
 
-(require 'selectrum)
-(require 'selectrum-prescient)
-(add-hook 'after-init-hook (lambda () (selectrum-mode t)))
-(add-hook 'after-init-hook (lambda () (selectrum-prescient-mode t)))
+(require 'vertico)
+(add-hook 'after-init-hook 'vertico-mode)
 
-(require 'orderless)
-
-;;; orderless
-(with-eval-after-load "selectrum"
+(with-eval-after-load "vertico"
   (require 'orderless))
+
 (defun +use-orderless-in-minibuffer ()
   (setq-local completion-styles '(substring orderless)))
 (add-hook 'minibuffer-setup-hook '+use-orderless-in-minibuffer)
 
-;;; selectrum
 (require 'embark)
-(with-eval-after-load "selectrum"
-  (define-key selectrum-minibuffer-map (kbd "C-c C-o") 'embark-export)
-  (define-key selectrum-minibuffer-map (kbd "C-c C-c") 'embark-act))
+(with-eval-after-load "vertico"
+  (define-key vertico-map (kbd "C-c C-o") 'embark-export)
+  (define-key vertico-map (kbd "C-c C-c") 'embark-act))
 
 ;;; embark
 (with-eval-after-load "embark"
@@ -39,6 +33,10 @@
 (global-set-key [remap switch-to-buffer-other-window] 'consult-buffer-other-window)
 (global-set-key [remap switch-to-buffer-other-frame] 'consult-buffer-other-frame)
 (global-set-key [remap goto-line] 'consult-goto-line)
+(setq xref-show-xrefs-function #'consult-xref
+      xref-show-definitions-function #'consult-xref)
+
+(setq-default completion-in-region-function #'consult-completion-in-region)
 
 ;;; marginalia
 (add-hook 'after-init-hook 'marginalia-mode)
@@ -50,6 +48,7 @@
 ;;; color rg
 (straight-use-package '(color-rg :type git :host github :repo "manateelazycat/color-rg"))
 (require 'color-rg)
+(setq color-rg-search-ignore-file nil)
 
 (defun +color-rg-switch-normal (origin-fun &rest args)
   (apply origin-fun args)

@@ -39,26 +39,29 @@
    '("-" . split-window-below)
    ;; high frequency commands
    '(";" . comment-dwim)
-   '("K" . kill-this-buffer)
-   '("j" . project-switch-to-buffer)
+   '("u" . kill-this-buffer)
    '("d" . dired)
    '("b" . switch-to-buffer)
    '("r" . rgrep)
-   '("p" . find-file-in-project-by-selected)
    '("f" . find-file)
    '("i" . imenu)
    '("a" . "M-x")
-   '("v" . "C-x g")
    '("=" . "C-c ^")
+   '("p" . find-file-in-project-by-selected)
+   '("t" . projectile-switch-to-buffer)
+   '("l" . "C-x p")
+   '("v" . "C-x g")
    '("n" . "C-x M-n")
    ;; toggles
    '("L" . display-line-numbers-mode)
    '("S" . smartparens-strict-mode)
-   '("t" . telega)
+   '("T" . telega)
    '("P" . pass)
-   '("R" . org-roam-mode)
    '("A" . org-agenda)
-   '("D" . docker))
+   '("D" . docker)
+   '("E" . elfeed)
+   '("F" . flymake-mode)
+   '("\\" . dired-sidebar-toggle-sidebar))
   (meow-normal-define-key
    '("0" . meow-expand-0)
    '("9" . meow-expand-9)
@@ -137,8 +140,6 @@
  meow-esc-delay 0.001
  meow-keypad-describe-delay 0.5
  meow-select-on-change t
- meow-cursor-type-normal 'box
- meow-cursor-type-insert '(bar . 2)
  meow-selection-command-fallback '((meow-replace . meow-page-up)
                                    (meow-change . meow-change-char)
                                    (meow-save . meow-save-empty)
@@ -150,6 +151,9 @@
 (require 'meow)
 
 (meow-global-mode 1)
+
+(setq meow-cursor-type-normal 'box)
+(setq meow-cursor-type-insert '(bar . 3))
 
 (with-eval-after-load "meow"
   ;; make Meow usable in TUI Emacs
@@ -171,11 +175,4 @@
   ;; add indicator to modeline
   (meow-setup-indicator))
 
-
-;; (straight-use-package 'key-chord)
-;; (key-chord-mode 1)
-;; (add-hook 'meow-insert-mode-hook '(lambda ()
-;;                                     (key-chord-define-local "jk" #'meow-insert-exit)))
-;; (add-hook 'meow-normal-mode-hook '(lambda ()
-;;                                     (key-chord-define-local "jk" #'ignore)))
 (provide 'init-modal)
