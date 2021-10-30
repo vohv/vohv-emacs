@@ -18,4 +18,6 @@
 (with-eval-after-load "cc-mode"
   (define-key c-mode-base-map (kbd "C-c C-z") '+popup-which-function)
   (define-key c-mode-base-map (kbd "TAB") '+c-indent-complete))
+
+(add-hook 'c-mode-common-hook '+lsp-start)
 (provide 'init-cc)

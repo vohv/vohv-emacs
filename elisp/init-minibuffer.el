@@ -59,7 +59,7 @@
   (apply origin-fun args)
   (meow--switch-state 'motion))
 (advice-add 'color-rg-apply-changed :around #'+color-rg-switch-motion)
-
+(define-key color-rg-mode-map (kbd "g") 'color-rg-recompile)
 (global-set-key [remap rgrep] 'color-rg-search-project-with-type)
 
 (provide 'init-minibuffer)

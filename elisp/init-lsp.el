@@ -2,18 +2,26 @@
 
 (straight-use-package 'flymake)
 (straight-use-package 'eglot)
+(straight-use-package 'lsp-mode)
 
+(defvar +lsp 'lsp)
+
+;;; flymake
 (autoload #'flymake-mode "flymake" nil t)
 
 (with-eval-after-load "flymake"
   (define-key flymake-mode-map (kbd "C-c C-b") #'consult-flymake)
   )
 
-(setq +clangd-exec "clangd")
-(setq +clangd-param (list "--clang-tidy"
+;;; eglot
+
+(setq +clangd-executable "clangd")
+(setq +clangd-args (list "--clang-tidy"
                           "--enable-config"
                           "--header-insertion=never"
-                          "--pch-storage=memory"))
+                          "--pch-storage=memory"
+                          "--malloc-trim"
+                          "-j=12"))
 
 
 (setq
@@ -35,11 +43,23 @@
       (eglot-format (line-beginning-position) (line-end-position)))
      ))
 
-  (set-eglot-client '(c++-mode c-mode) (append (list +clangd-exec) +clangd-param))
+  (set-eglot-client '(c++-mode c-mode) (append (list +clangd-executable) +clangd-args))
   (define-key eglot-mode-map (kbd "C-c C-f") #'+eglot-format-dwim)
   )
 
-;; (when (executable-find +clangd-exec)
-;;   (add-hook 'c-mode-common-hook 'eglot-ensure))
+;;; lsp-mode
+
+(setq lsp-clients-clangd-args +clangd-args)
+
+(autoload #'lsp "lsp-mode" nil t)
+
+(setq lsp-keymap-prefix "C-c C-l")
+
+(defun +lsp-start ()
+  (interactive)
+  (if (equal 'lsp +lsp)
+      (lsp)
+    (eglot-ensure)))
+
 
 (provide 'init-lsp)

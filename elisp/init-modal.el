@@ -43,6 +43,7 @@
    '("d" . dired)
    '("b" . switch-to-buffer)
    '("r" . rgrep)
+   '("R" . +window-rotate-layout)
    '("f" . find-file)
    '("i" . imenu)
    '("a" . "M-x")

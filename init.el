@@ -28,3 +28,4 @@
 (require 'init-debug)
 (require 'init-minibuffer)
 (require 'init-builtin)
+(require 'init-window)
