@@ -4,6 +4,7 @@
 (straight-use-package 'eglot)
 (straight-use-package 'lsp-mode)
 
+(defvar +enable-lsp nil)
 (defvar +lsp 'lsp)
 
 ;;; flymake
@@ -71,5 +72,9 @@
 
 (with-eval-after-load "lsp-mode"
   (define-key lsp-mode-map (kbd "C-c C-l") '+lsp-command-map))
+
+
+(if +enable-lsp
+    (add-hook 'c-mode-common-hook '+lsp-start))
 
 (provide 'init-lsp)

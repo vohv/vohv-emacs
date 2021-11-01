@@ -4,6 +4,7 @@
 
 (require 'citre)
 (require 'citre-config)
+(require 'citre-global)
 
 (defun citre-jump+ ()
   (interactive)
@@ -19,8 +20,8 @@
    citre-use-project-root-when-creating-tags t
    citre-prompt-language-for-ctags-command t)
   (setq-default
-   citre-enable-xref-integration nil
-   citre-enable-capf-integration nil
+   citre-enable-xref-integration t
+   citre-enable-capf-integration t
    citre-enable-imenu-integration t)
   (require 'projectile)
   (setq citre-project-root-function #'projectile-project-root)
@@ -41,7 +42,9 @@
 (global-set-key (kbd "C-c v J") 'citre-jump-back)
 (global-set-key (kbd "C-c v p") 'citre-peek)
 (global-set-key (kbd "C-c v P") 'citre-ace-peek)
+(global-set-key (kbd "C-c v r") 'citre-jump-to-reference)
 (global-set-key (kbd "C-c v u") 'citre-update-this-tags-file)
+(global-set-key (kbd "C-c v U") 'citre-global-update-database)
 
 ;;; xref
 (autoload #'xref-push-marker-stack "xref" "" nil)
