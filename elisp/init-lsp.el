@@ -53,7 +53,7 @@
 
 (autoload #'lsp "lsp-mode" nil t)
 
-(setq lsp-keymap-prefix "C-c C-l")
+(setq lsp-keymap-prefix "C-c C-M-l")
 
 (defun +lsp-start ()
   (interactive)
@@ -61,5 +61,15 @@
       (lsp)
     (eglot-ensure)))
 
+(defvar +lsp-command-map
+  (let ((m (make-keymap)))
+    (define-key m (kbd "a") 'lsp-execute-code-action)
+    (define-key m (kbd "f") 'lsp-format-region)
+    m))
+
+(defalias '+lsp-command-map +lsp-command-map)
+
+(with-eval-after-load "lsp-mode"
+  (define-key lsp-mode-map (kbd "C-c C-l") '+lsp-command-map))
 
 (provide 'init-lsp)
