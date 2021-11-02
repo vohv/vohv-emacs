@@ -39,7 +39,7 @@
    '("-" . split-window-below)
    ;; high frequency commands
    '(";" . comment-dwim)
-   '("u" . kill-this-buffer)
+   '("K" . kill-this-buffer)
    '("d" . dired)
    '("b" . switch-to-buffer)
    '("r" . rgrep)

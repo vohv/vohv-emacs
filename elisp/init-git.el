@@ -3,9 +3,21 @@
 (straight-use-package 'magit)
 (straight-use-package 'smerge-mode)
 (straight-use-package 'git-timemachine)
+(straight-use-package 'git-modes)
+(straight-use-package 'git-blamed)
+(straight-use-package 'magit-todos)
+(straight-use-package 'diff-hl)
+(straight-use-package 'fullframe)
+(straight-use-package 'git-commit)
+
+(global-set-key (kbd "C-x v t") 'git-timemachine-toggle)
 
 (with-eval-after-load "magit"
-  (define-key transient-base-map (kbd "<escape>") #'transient-quit-one))
+  (require 'magit-todos)
+  (define-key transient-base-map (kbd "<escape>") #'transient-quit-one)
+  (setq-default magit-diff-refine-hunk t)
+  (fullframe magit-status magit-mode-quit-window)
+)
 
 (global-unset-key (kbd "C-x g"))
 (global-set-key (kbd "C-x g s") 'magit-status)
@@ -20,6 +32,9 @@
 (autoload #'magit-log "magit" nil t)
 (autoload #'magit-project-status "magit" nil t)
 
+(add-hook 'git-commit-mode-hook 'goto-address-mode)
+
+
 ;; {{ speed up magit, @see https://jakemccrary.com/blog/2020/11/14/speeding-up-magit/
 (defvar +prefer-lightweight-magit t)
 (with-eval-after-load 'magit
@@ -32,60 +47,11 @@
     (remove-hook 'magit-status-sections-hook 'magit-insert-unpushed-to-upstream-or-recent)))
 ;; }}
 
-(defun +git-commit-id ()
-  "Select commit id from current branch."
-  (let* ((git-cmd "git --no-pager log --date=short --pretty=format:'%h|%ad|%s|%an'")
-         (collection (nonempty-lines (shell-command-to-string git-cmd)))
-         (item (completing-read "git log:" collection)))
-    (when item
-      (car (split-string item "|" t)))))
-
-(defun +git-show-commit-internal ()
-  "Show git commit."
-  (let* ((id (+git-commit-id)))
-    (when id
-      (shell-command-to-string (format "git show %s" id)))))
-
-(defun +git-show-commit ()
-  "Show commit using ffip."
-  (interactive)
-  (let* ((ffip-diff-backends '(("Show git commit" . +git-show-commit-internal))))
-    (ffip-show-diff 0)))
-
-;; {{ git-timemachine
-(defun +git-timemachine-show-selected-revision ()
-  "Show last (current) revision of file."
-  (interactive)
-  (let*
-      (
-       (collection (mapcar (lambda (rev)
-                             `(,(concat (substring-no-properties (nth 0 rev) 0 7) "|" (nth 5 rev) "|" (nth 6 rev)) . ,rev))
-                           (git-timemachine--revisions)))
-       (rev (+completing-read-alist-value "commits:" collection))
-       )
-    (when rev
-      (git-timemachine-show-revision rev))))
-
-(defun +git-timemachine ()
-  "Open git snapshot with the selected version."
-  (interactive)
-  (+ensure 'git-timemachine)
-  (git-timemachine--start #'+git-timemachine-show-selected-revision))
-
-(defun +git-timemachine-hook-function ()
-  (when (bound-and-true-p meow-mode)
-      (meow--switch-state 'motion)))
-
-(with-eval-after-load "git-timemachine"
-  (add-hook 'git-timemachine-mode-hook '+git-timemachine-hook-function))
-;; }}
-
 ;;; smerge
 (autoload #'smerge-mode "smerge-mode" nil t)
 (add-hook 'find-file-hook 'smerge-mode)
 
 ;;; diff hl
-(straight-use-package 'diff-hl)
 (global-diff-hl-mode)
 (unless (window-system)
   (diff-hl-margin-mode +1)

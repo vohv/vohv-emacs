@@ -14,6 +14,8 @@
   (define-key symbol-overlay-mode-map (kbd "M-I") 'symbol-overlay-remove-all))
 
 ;;; whitespace
+(custom-set-faces
+ '(trailing-whitespace ((t (:background "light gray")))))
 
 (defun +show-trailing-whitespace ()
   (setq-local show-trailing-whitespace t))
