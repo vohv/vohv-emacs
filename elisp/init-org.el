@@ -301,4 +301,18 @@
 
 (require 'org-roam)
 
+
+(defun +org-init ()
+  (variable-pitch-mode 1))
+
+(with-eval-after-load "org"
+  (custom-set-faces
+   '(org-table ((t :inherit 'fixed-pitch)))
+   '(org-code ((t :inherit 'fixed-pitch)))
+   '(org-block ((t :inherit 'fixed-pitch)))
+   '(org-checkbox ((t :inherit 'fixed-pitch))))
+
+  (add-hook 'org-mode-hook #'+org-init)
+  )
+
 (provide 'init-org)

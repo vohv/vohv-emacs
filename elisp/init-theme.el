@@ -31,27 +31,9 @@
 
 ;;; theme
 
-(straight-use-package 'doom-themes)
-
-(with-eval-after-load "doom-themes"
-  (setq doom-themes-enable-bold t
-        doom-themes-enable-italic t)
-
-  (load-theme 'doom-vibrant t)
-
-  (doom-themes-visual-bell-config)
-  (doom-themes-org-config))
-
-(when window-system
-  (require 'doom-themes))
-
-;;; modeline
-(straight-use-package 'doom-modeline)
-
-(with-eval-after-load "doom-modeline"
-  (setq doom-modeline-vcs-max-length 100)
-  (setq doom-modeline-icon nil))
-
-;; (doom-modeline-mode 1)
+(straight-use-package '(printed-theme :type git :host github :repo "DogLooksGood/printed-theme"))
+(require 'printed-theme)
+(when (window-system)
+  (load-theme 'printed t))
 
 (provide 'init-theme)
