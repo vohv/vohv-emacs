@@ -45,21 +45,32 @@
 (require 'projectile)
 (setq-default consult-project-root-function 'projectile-project-root)
 
-;;; color rg
-(straight-use-package '(color-rg :type git :host github :repo "manateelazycat/color-rg"))
-(require 'color-rg)
-(setq color-rg-search-ignore-file nil)
+;; ;;; color rg
+;; (straight-use-package '(color-rg :type git :host github :repo "manateelazycat/color-rg"))
+;; (require 'color-rg)
+;; (setq color-rg-search-ignore-file nil)
+;;
+;; (defun +color-rg-switch-normal (origin-fun &rest args)
+;;   (apply origin-fun args)
+;;   (meow--switch-state 'normal))
+;; (advice-add 'color-rg-switch-to-edit-mode :around #'+color-rg-switch-normal)
+;;
+;; (defun +color-rg-switch-motion (origin-fun &rest args)
+;;   (apply origin-fun args)
+;;   (meow--switch-state 'motion))
+;; (advice-add 'color-rg-apply-changed :around #'+color-rg-switch-motion)
+;; (define-key color-rg-mode-map (kbd "g") 'color-rg-recompile)
+;; (global-set-key [remap rgrep] 'color-rg-search-project-with-type)
 
-(defun +color-rg-switch-normal (origin-fun &rest args)
-  (apply origin-fun args)
-  (meow--switch-state 'normal))
-(advice-add 'color-rg-switch-to-edit-mode :around #'+color-rg-switch-normal)
+;;; rg.el
+(straight-use-package 'rg)
+(global-set-key (kbd "C-c s") #'rg-menu)
+(with-eval-after-load 'rg
+)
 
-(defun +color-rg-switch-motion (origin-fun &rest args)
-  (apply origin-fun args)
-  (meow--switch-state 'motion))
-(advice-add 'color-rg-apply-changed :around #'+color-rg-switch-motion)
-(define-key color-rg-mode-map (kbd "g") 'color-rg-recompile)
-(global-set-key [remap rgrep] 'color-rg-search-project-with-type)
+(require 'rg-isearch)
+(define-key isearch-mode-map (kbd "M-s r") 'rg-isearch-menu)
+(global-set-key [remap rgrep] 'rg-dwim)
+
 
 (provide 'init-minibuffer)
