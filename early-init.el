@@ -6,6 +6,10 @@
 
 (require 'init-gc)
 (require 'init-ui)
-(require 'init-defaults)
 
+(let ((private-conf (locate-user-emacs-file "private.el")))
+  (when (file-exists-p private-conf)
+    (load-file private-conf)))
+
+(require 'init-defaults)
 (require 'init-font)

@@ -18,3 +18,5 @@
 (require 'init-builtin)
 (require 'init-window)
 (require 'init-xterm)
+
+(straight-use-package 'restart-emacs)

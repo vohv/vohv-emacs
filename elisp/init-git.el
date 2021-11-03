@@ -5,18 +5,26 @@
 (straight-use-package 'git-timemachine)
 (straight-use-package 'git-modes)
 (straight-use-package 'git-blamed)
-(straight-use-package 'magit-todos)
 (straight-use-package 'diff-hl)
 (straight-use-package 'fullframe)
 (straight-use-package 'git-commit)
 
+(require 'git-blamed)
+(require 'git-modes)
+
 (global-set-key (kbd "C-x v t") 'git-timemachine-toggle)
 
 (with-eval-after-load "magit"
-  (require 'magit-todos)
   (define-key transient-base-map (kbd "<escape>") #'transient-quit-one)
   (setq-default magit-diff-refine-hunk t)
   (fullframe magit-status magit-mode-quit-window)
+
+  (setq magit-blame--style
+      '(margin
+        (margin-format " %s%f" " %C %a" " %H")
+        (margin-width . 42)
+        (margin-face . magit-blame-margin)
+        (margin-body-face magit-blame-dimmed)))
 )
 
 (global-unset-key (kbd "C-x g"))
@@ -36,13 +44,13 @@
 
 
 ;; {{ speed up magit, @see https://jakemccrary.com/blog/2020/11/14/speeding-up-magit/
-(defvar +prefer-lightweight-magit t)
+(defvar +prefer-lightweight-magit nil)
 (with-eval-after-load 'magit
   (when +prefer-lightweight-magit
     (remove-hook 'magit-status-sections-hook 'magit-insert-tags-header)
-    ;; (remove-hook 'magit-status-sections-hook 'magit-insert-status-headers)
-    ;; (remove-hook 'magit-status-sections-hook 'magit-insert-unpushed-to-pushremote)
-    ;; (remove-hook 'magit-status-sections-hook 'magit-insert-unpulled-from-pushremote)
+    (remove-hook 'magit-status-sections-hook 'magit-insert-status-headers)
+    (remove-hook 'magit-status-sections-hook 'magit-insert-unpushed-to-pushremote)
+    (remove-hook 'magit-status-sections-hook 'magit-insert-unpulled-from-pushremote)
     (remove-hook 'magit-status-sections-hook 'magit-insert-unpulled-from-upstream)
     (remove-hook 'magit-status-sections-hook 'magit-insert-unpushed-to-upstream-or-recent)))
 ;; }}
