@@ -100,9 +100,9 @@
  pgtk-use-im-context-on-new-connection nil)
 
 (add-hook 'after-init-hook
-           '(lambda ()
-              (when (window-system)
-                (cd "~"))))
+          (lambda ()
+            (when (window-system)
+              (cd "~"))))
 
 (fset 'yes-or-no-p 'y-or-n-p)
 
