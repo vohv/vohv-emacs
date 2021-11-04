@@ -12,6 +12,9 @@
 (require 'git-blamed)
 (require 'git-modes)
 
+(defvar +libgit-enable nil)
+(defvar +prefer-lightweight-magit nil)
+
 (global-set-key (kbd "C-x v t") 'git-timemachine-toggle)
 
 (with-eval-after-load "magit"
@@ -44,7 +47,6 @@
 
 
 ;; {{ speed up magit, @see https://jakemccrary.com/blog/2020/11/14/speeding-up-magit/
-(defvar +prefer-lightweight-magit nil)
 (with-eval-after-load 'magit
   (when +prefer-lightweight-magit
     (remove-hook 'magit-status-sections-hook 'magit-insert-tags-header)
@@ -67,5 +69,20 @@
 (with-eval-after-load "magit"
   (add-hook 'magit-pre-refresh-hook 'diff-hl-magit-pre-refresh)
   (add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh))
+
+
+;;; libgit build command in window system
+;;
+;; mkdir build && cd build
+;; cmake -G "MinGW Makefiles" ..
+;; make
+;;
+(when +libgit-enable
+  (when (eq 'w32 (window-system))
+    (setq libgit--module-file
+          (locate-user-emacs-file "straight/build/libgit/build/libegit2.dll")))
+
+  (straight-use-package 'magit-libgit)
+  (require 'magit-libgit))
 
 (provide 'init-git)
