@@ -65,12 +65,12 @@
 ;;; rg.el
 (straight-use-package 'rg)
 (global-set-key (kbd "C-c s") #'rg-menu)
-(with-eval-after-load 'rg
-)
+(setq rg-custom-type-aliases '(("cc" . "*.c *.h *.hpp *.cpp *.cc")))
+(with-eval-after-load 'rg)
 
 (require 'rg-isearch)
 (define-key isearch-mode-map (kbd "M-s r") 'rg-isearch-menu)
 (global-set-key [remap rgrep] 'rg-dwim)
 
-
+(setq wgrep-auto-save-buffer t)
 (provide 'init-minibuffer)
