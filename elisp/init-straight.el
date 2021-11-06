@@ -1,4 +1,7 @@
 ;;; -*- lexical-binding: t -*-
+
+(defvar +straight-use-speedup-mirror nil)
+
 (setq comp-deferred-compilation-deny-list ())
 (setq straight-vc-git-default-clone-depth 1)
 
@@ -25,5 +28,13 @@
 (global-set-key (kbd "C-x M-s C") 'straight-check-all)
 (global-set-key (kbd "C-x M-s b") 'straight-rebuild-package)
 (global-set-key (kbd "C-x M-s B") 'straight-rebuild-all)
+
+
+(when +straight-use-speedup-mirror
+  (advice-add 'straight-vc-git--encode-url :around #'noalias-set-github-mirror)
+  (defun noalias-set-github-mirror (oldfunc &rest args)
+    (let ((url (apply oldfunc args)))
+      (replace-regexp-in-string (rx (group "github.com"))
+                                "github.com.cnpmjs.org" url nil nil 1))))
 
 (provide 'init-straight)
