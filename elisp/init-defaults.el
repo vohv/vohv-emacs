@@ -42,7 +42,7 @@
  ;; mouse yank at point instead of click position.
  mouse-yank-at-point t
  ;; this fix the cursor movement lag
- auto-window-vscroll nil
+ auto-window-vscroll t
  ;; window divider setup
  window-divider-default-right-width 1
  window-divider-default-bottom-width 1
@@ -97,19 +97,21 @@
  ;; pinentry
  epa-pinentry-mode 'loopback
  ;; disable input method in pgtk
- pgtk-use-im-context-on-new-connection nil)
-
-(add-hook 'after-init-hook
-          (lambda ()
-            (when (window-system)
-              (cd "~"))))
+ pgtk-use-im-context-on-new-connection nil
+ ;; disable bell completely
+ ring-bell-function 'ignore
+ ;; eldoc idle delay
+ eldoc-idle-delay 1
+ ;; disable copy region blink
+ copy-region-blink-delay 0)
 
 (fset 'yes-or-no-p 'y-or-n-p)
 
 (add-hook 'prog-mode-hook 'visual-line-mode)
 (add-hook 'conf-mode-hook 'visual-line-mode)
-;; (add-hook 'prog-mode-hook 'hl-line-mode)
-;; (add-hook 'conf-mode-hook 'hl-line-mode)
+(add-hook 'prog-mode-hook 'hl-line-mode)
+(add-hook 'conf-mode-hook 'hl-line-mode)
+(add-hook 'text-mode-hook 'hl-line-mode)
 (add-hook 'prog-mode-hook 'display-line-numbers-mode)
 (add-hook 'text-mode-hook 'display-line-numbers-mode)
 (add-hook 'conf-mode-hook 'display-line-numbers-mode)
@@ -129,7 +131,15 @@
 (global-set-key (kbd "C-x C-z") #'+reopen-file-with-sudo)
 (setq-default max-mini-window-height 0.1)
 
+(defvar +proxy-host "localhost")
+(defvar +proxy-port 1089)
+
 (unless (window-system)
   (xterm-mouse-mode +1))
+
+(add-hook 'after-init-hook
+          (lambda ()
+            (when (window-system)
+              (cd "~"))))
 
 (provide 'init-defaults)

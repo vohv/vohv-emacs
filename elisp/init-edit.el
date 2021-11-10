@@ -41,4 +41,13 @@
   (define-key sh-mode-map (kbd "C-c C-f") 'shfmt)
   )
 
+(straight-use-package '(casease :type git :host github :repo "DogLooksGood/casease"))
+
+(require 'casease)
+(casease-setup
+ :hook c-mode-common-hook
+ :separator ?=
+ :entries
+ ((pascal "\\(-\\)[a-z]" "[A-Z]")
+  (snake "[a-z]")))
 (provide 'init-edit)

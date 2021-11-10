@@ -48,10 +48,10 @@
    '("i" . imenu)
    '("a" . "M-x")
    '("=" . "C-c ^")
-   '("p" . project-switch-project)
+   '("p" . "C-x p f")
    '("t" . project-switch-to-buffer)
-   '("l" . "C-x p")
    '("v" . "C-x g")
+   '("l" . "C-x p p")
    '("n" . "C-x M-n")
    ;; toggles
    '("L" . display-line-numbers-mode)
@@ -63,6 +63,8 @@
    '("E" . elfeed)
    '("F" . flymake-mode)
    '("\\" . dired-sidebar-toggle-sidebar))
+  (meow-motion-overwrite-define-key
+   '("'" . repeat))
   (meow-normal-define-key
    '("0" . meow-expand-0)
    '("9" . meow-expand-9)
@@ -128,7 +130,7 @@
    '("X" . meow-kmacro-lines)
    '("y" . meow-save)
    '("Y" . meow-sync-grab)
-   '("z" . meow-pop)
+   '("z" . meow-pop-selection)
    '("Z" . meow-pop-all-selection)
    '("&" . meow-query-replace)
    '("%" . meow-query-replace-regexp)
@@ -146,14 +148,19 @@
                                    (meow-save . meow-save-empty)
                                    (meow-kill . meow-C-k)
                                    (meow-cancel . keyboard-quit)
-                                   (meow-pop . meow-pop-grab)
-                                   (meow-delete . meow-C-d)))
+                                   (meow-pop-selection . meow-pop-grab)
+                                   (meow-delete . meow-C-d))
+ meow-replace-state-name-list '((normal . "N")
+                                (motion . "M")
+                                (keypad . "K")
+                                (insert . "I")
+                                (bmacro . "B")))
 
 (require 'meow)
 
 (meow-global-mode 1)
 
-(setq meow-cursor-type-normal 'box)
+(setq meow-cursor-type-keypad 'box)
 (setq meow-cursor-type-insert '(bar . 3))
 
 (with-eval-after-load "meow"
@@ -165,15 +172,14 @@
   (add-to-list 'meow-mode-state-list '(cider-test-report-mode . normal))
   (add-to-list 'meow-mode-state-list '(comint-mode . normal))
   (add-to-list 'meow-mode-state-list '(color-rg-mode . motion))
-
-  (add-to-list 'meow-grab-fill-commands 'eval-expression)
-
+  (add-to-list 'meow-mode-state-list '(cargo-process-mode . normal))
+  (add-to-list 'meow-mode-state-list '(shell-mode . normal))
+  (setq meow-grab-fill-commands nil)
+  (setq meow-visit-sanitize-completion t)
   ;; use << and >> to select to bol/eol
   (add-to-list 'meow-char-thing-table '(?> . line))
   (add-to-list 'meow-char-thing-table '(?< . line))
   ;; define our command layout
-  (meow-setup)
-  ;; add indicator to modeline
-  (meow-setup-indicator))
+  (meow-setup))
 
 (provide 'init-modal)
