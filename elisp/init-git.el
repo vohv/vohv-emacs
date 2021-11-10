@@ -30,18 +30,20 @@
         (margin-body-face magit-blame-dimmed)))
 )
 
-(global-unset-key (kbd "C-x g"))
-(global-set-key (kbd "C-x g s") 'magit-status)
-(global-set-key (kbd "C-x g b") 'magit-blame)
-(global-set-key (kbd "C-x g l") 'magit-log)
-(global-set-key (kbd "C-x g d") 'magit-diff)
-(global-set-key (kbd "C-x g p") 'magit-project-status)
+(defvar +magit-keymap
+  (let ((m (make-keymap)))
+    (define-key m (kbd "s") 'magit-status)
+    (define-key m (kbd "b") 'magit-blame)
+    (define-key m (kbd "l") 'magit-log)
+    (define-key m (kbd "d") 'magit-diff)
+    (define-key m (kbd "p") 'magit-project-status)
+    m))
+(defalias '+magit-keymap +magit-keymap)
+(global-set-key (kbd "C-x g") '+magit-keymap)
 
-(autoload #'magit-status "magit" nil t)
 (autoload #'magit-diff "magit" nil t)
 (autoload #'magit-blame "magit" nil t)
 (autoload #'magit-log "magit" nil t)
-(autoload #'magit-project-status "magit" nil t)
 
 (add-hook 'git-commit-mode-hook 'goto-address-mode)
 
