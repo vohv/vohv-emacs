@@ -30,7 +30,7 @@
         (margin-body-face magit-blame-dimmed)))
 )
 
-(defvar +magit-keymap
+(defvar magit-keymap
   (let ((m (make-keymap)))
     (define-key m (kbd "s") 'magit-status)
     (define-key m (kbd "b") 'magit-blame)
@@ -38,8 +38,8 @@
     (define-key m (kbd "d") 'magit-diff)
     (define-key m (kbd "p") 'magit-project-status)
     m))
-(defalias '+magit-keymap +magit-keymap)
-(global-set-key (kbd "C-x g") '+magit-keymap)
+(defalias 'magit-keymap magit-keymap)
+(global-set-key (kbd "C-x g") 'magit-keymap)
 
 (autoload #'magit-diff "magit" nil t)
 (autoload #'magit-blame "magit" nil t)
