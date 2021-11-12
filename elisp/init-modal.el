@@ -1,6 +1,6 @@
 ;;; -*- lexical-binding: t -*-
 
-(straight-use-package '(meow :type git :host github :repo "DogLooksGood/meow"))
+(straight-use-package '(meow :type git :host github :repo "meow-edit/meow"))
 
 (defun meow-setup ()
   (setq meow-cheatsheet-layout meow-cheatsheet-layout-qwerty)

@@ -87,4 +87,15 @@
   (straight-use-package 'magit-libgit)
   (require 'magit-libgit))
 
+;;; forge
+(straight-use-package 'forge)
+(with-eval-after-load "forge"
+  (push '("github.xsky.com" "github.xsky.com/api/v3"
+          "github.xsky.com" forge-github-repository)
+        forge-alist))
+
+;;; github review
+(straight-use-package 'github-review)
+(with-eval-after-load "github-review"
+  (setq github-review-host "github.xsky.com/api/v3"))
 (provide 'init-git)
