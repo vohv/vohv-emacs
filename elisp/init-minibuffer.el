@@ -6,6 +6,7 @@
 (straight-use-package 'consult)
 (straight-use-package 'embark-consult)
 (straight-use-package 'marginalia)
+(straight-use-package 'projectile)
 
 (require 'vertico)
 (add-hook 'after-init-hook 'vertico-mode)

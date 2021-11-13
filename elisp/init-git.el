@@ -4,12 +4,9 @@
 (straight-use-package 'smerge-mode)
 (straight-use-package 'git-timemachine)
 (straight-use-package 'git-modes)
-(straight-use-package 'git-blamed)
 (straight-use-package 'diff-hl)
 (straight-use-package 'fullframe)
-(straight-use-package 'git-commit)
 
-(require 'git-blamed)
 (require 'git-modes)
 
 (defvar +libgit-enable nil)
@@ -21,14 +18,14 @@
   (define-key transient-base-map (kbd "<escape>") #'transient-quit-one)
   (setq-default magit-diff-refine-hunk t)
   (fullframe magit-status magit-mode-quit-window)
+  (fullframe magit-project-status magit-mode-quit-window)
 
   (setq magit-blame--style
       '(margin
         (margin-format " %s%f" " %C %a" " %H")
         (margin-width . 42)
         (margin-face . magit-blame-margin)
-        (margin-body-face magit-blame-dimmed)))
-)
+        (margin-body-face magit-blame-dimmed))))
 
 (defvar magit-keymap
   (let ((m (make-keymap)))

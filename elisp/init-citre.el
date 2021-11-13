@@ -1,50 +1,38 @@
 ;;; -*- lexical-binding: t -*-
 
 (straight-use-package 'citre)
+(straight-use-package 'dumb-jump)
 
 (require 'citre)
 (require 'citre-config)
-(require 'citre-global)
 
 (defun citre-jump+ ()
   (interactive)
+  (if (eq major-mode 'emacs-lisp-mode)
+      (progn
+        (require 'dumb-jump)
+        (dumb-jump-go))
   (condition-case _
       (citre-jump)
-    (error (call-interactively #'xref-find-definitions))))
+    (error (call-interactively #'xref-find-definitions)))))
 
-(with-eval-after-load "citre"
-  (setq
-   citre-readtags-program (executable-find "readtags")
-   citre-ctags-program (executable-find "ctags")
-   citre-default-create-tags-file-location 'global-cache
-   citre-use-project-root-when-creating-tags t
-   citre-prompt-language-for-ctags-command t)
-  (setq-default
-   citre-enable-xref-integration t
-   citre-enable-capf-integration t
-   citre-enable-imenu-integration t)
-  (require 'projectile)
-  (setq citre-project-root-function #'projectile-project-root)
 
-  ;; Integrate with `eglot'
-  (define-advice xref--create-fetcher (:around (fn &rest args) fallback)
-    (let ((fetcher (apply fn args))
-          (citre-fetcher
-           (let ((xref-backend-functions '(citre-xref-backend t)))
-             (ignore xref-backend-functions)
-             (apply fn args))))
-      (lambda ()
-        (or (with-demoted-errors "%s, fallback to citre"
-              (funcall fetcher))
-            (funcall citre-fetcher))))))
+(setq
+ citre-readtags-program (executable-find "readtags")
+ citre-ctags-program (executable-find "ctags")
+ citre-default-create-tags-file-location 'global-cache
+ citre-use-project-root-when-creating-tags t
+ citre-prompt-language-for-ctags-command t)
 
-(global-set-key (kbd "C-c v j") 'citre-jump+)
-(global-set-key (kbd "C-c v J") 'citre-jump-back)
-(global-set-key (kbd "C-c v p") 'citre-peek)
-(global-set-key (kbd "C-c v P") 'citre-ace-peek)
-(global-set-key (kbd "C-c v r") 'citre-jump-to-reference)
-(global-set-key (kbd "C-c v u") 'citre-update-this-tags-file)
-(global-set-key (kbd "C-c v U") 'citre-global-update-database)
+(defvar citre-keymap
+  (let ((m (make-keymap)))
+    (define-key m (kbd "j") 'citre-jump+)
+    (define-key m (kbd "J") 'citre-jump-back)
+    (define-key m (kbd "p") 'citre-peek)
+    (define-key m (kbd "P") 'citre-ace-peek)
+    (define-key m (kbd "u") 'citre-update-this-tags-file)))
+(defalias 'citre-keymap citre-keymap)
+(global-set-key (kbd "C-c v") 'citre-keymap)
 
 ;;; xref
 (autoload #'xref-push-marker-stack "xref" "" nil)
