@@ -43,21 +43,21 @@
 
 ;;; theme
 
-(straight-use-package '(dogemacs-theme :type git
-                                      :host github
-                                      :repo "DogLooksGood/dogEmacs"
-                                      :files ("themes/*.el")))
+;; (straight-use-package '(dogemacs-theme :type git
+;;                                        :host github
+;;                                        :repo "DogLooksGood/dogEmacs"
+;;                                        :files ("themes/*.el")))
 
-(require 'graverse-theme)
-(require 'grayscale-theme)
-(require 'joker-theme)
-(require 'minidark-theme)
-(require 'paperlike-theme)
-(require 'printed-theme)
-(require 'storybook-theme)
+;; (require 'graverse-theme)
+;; (require 'grayscale-theme)
+;; (require 'joker-theme)
+;; (require 'minidark-theme)
+;; (require 'paperlike-theme)
+;; (require 'printed-theme)
+;; (require 'storybook-theme)
 
-(if (window-system)
-    (load-theme 'printed t)
-  (load-theme 'joker t))
+;; (if (window-system)
+;;     (load-theme 'printed t)
+;;   (load-theme 'joker t))
 
 (provide 'init-theme)
