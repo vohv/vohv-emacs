@@ -103,7 +103,11 @@
  ;; eldoc idle delay
  eldoc-idle-delay 1
  ;; disable copy region blink
- copy-region-blink-delay 0)
+ copy-region-blink-delay 0
+
+ ;; always split window below
+ split-width-threshold nil
+ )
 
 (fset 'yes-or-no-p 'y-or-n-p)
 
