@@ -11,7 +11,9 @@
   (add-hook hook 'symbol-overlay-mode))
 (with-eval-after-load "symbol-overlay"
   (define-key symbol-overlay-mode-map (kbd "M-i") 'symbol-overlay-put)
-  (define-key symbol-overlay-mode-map (kbd "M-I") 'symbol-overlay-remove-all))
+  (define-key symbol-overlay-mode-map (kbd "M-I") 'symbol-overlay-remove-all)
+  (define-key symbol-overlay-mode-map (kbd "M-n") 'symbol-overlay-jump-next)
+  (define-key symbol-overlay-mode-map (kbd "M-p") 'symbol-overlay-jump-prev))
 
 ;;; whitespace
 (custom-set-faces
@@ -22,8 +24,6 @@
 
 (dolist (hook '(prog-mode-hook conf-mode-hook))
   (add-hook hook #'+show-trailing-whitespace))
-
-(show-paren-mode 1)
 
 (straight-use-package 'rainbow-delimiters)
 (add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
@@ -38,16 +38,6 @@
 (add-hook 'sh-mode-hook 'shfmt-on-save-mode)
 (require 'sh-script)
 (with-eval-after-load "sh-script"
-  (define-key sh-mode-map (kbd "C-c C-f") 'shfmt)
-  )
+  (define-key sh-mode-map (kbd "C-c C-f") 'shfmt))
 
-(straight-use-package '(casease :type git :host github :repo "DogLooksGood/casease"))
-
-(require 'casease)
-(casease-setup
- :hook c-mode-common-hook
- :separator ?=
- :entries
- ((pascal "\\(-\\)[a-z]" "[A-Z]")
-  (snake "[a-z]")))
 (provide 'init-edit)

@@ -23,8 +23,7 @@
                 (:eval (when (bound-and-true-p flycheck-mode) flycheck-mode-line))
                 (:eval (when (bound-and-true-p flymake-mode)
                          flymake-mode-line-format))
-                " "
-                (:eval (+which-func-format))))
+                ))
          (rhs '((:eval (+smart-file-name-cached))
                 mode-line-modified
                 " "
@@ -43,21 +42,22 @@
 
 ;;; theme
 
-;; (straight-use-package '(dogemacs-theme :type git
-;;                                        :host github
-;;                                        :repo "DogLooksGood/dogEmacs"
-;;                                        :files ("themes/*.el")))
+(straight-use-package '(dogemacs-theme :type git
+                                      :host github
+                                      :repo "DogLooksGood/dogEmacs"
+                                      :files ("themes/*.el")))
+(straight-use-package 'color-theme-sanityinc-tomorrow)
 
-;; (require 'graverse-theme)
-;; (require 'grayscale-theme)
-;; (require 'joker-theme)
-;; (require 'minidark-theme)
-;; (require 'paperlike-theme)
-;; (require 'printed-theme)
-;; (require 'storybook-theme)
+(require 'graverse-theme)
+(require 'grayscale-theme)
+(require 'joker-theme)
+(require 'minidark-theme)
+(require 'paperlike-theme)
+(require 'printed-theme)
+(require 'storybook-theme)
 
-;; (if (window-system)
-;;     (load-theme 'printed t)
-;;   (load-theme 'joker t))
+(if (window-system)
+    (load-theme 'printed t)
+  (load-theme 'joker t))
 
 (provide 'init-theme)

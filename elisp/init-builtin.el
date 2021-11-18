@@ -5,16 +5,16 @@
 
 
 ;;; saveplace
-(add-hook 'after-init-hook 'save-place-mode)
+(save-place-mode)
 
 ;;; subword
-(add-hook 'after-init-hook 'global-subword-mode)
+(global-subword-mode)
 ;;;; winner
-(add-hook 'after-init-hook 'winner-mode)
+(winner-mode)
 (add-hook 'ediff-quit-hook 'winner-undo)
 
 ;;; autorevert
-(add-hook 'after-init-hook 'global-auto-revert-mode)
+(global-auto-revert-mode)
 
 ;;; isearch
 (setq isearch-lazy-count t

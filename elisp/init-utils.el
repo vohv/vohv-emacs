@@ -26,13 +26,13 @@
 (defun +popup-which-function ()
   "Popup which function message"
   (interactive)
-  (require 'popup)
   (require 'which-func)
-  (let* ((msg (which-function)))
-    (when msg
-      ;; (popup-tip msg)
-      (message msg)
-      (+copy-yank-str msg))))
+  (let* ((function-name (which-function)))
+    (when function-name
+      (message "Located in function: %s"
+               (propertize
+                function-name
+                'face '+which-func-face)))))
 
 (defvar +smart-file-name-cache nil)
 

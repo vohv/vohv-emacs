@@ -306,7 +306,7 @@
            :unnarrowed t)))
 
 (with-eval-after-load "org-roam"
-  (add-hook 'after-init-hook 'org-roam-db-autosync-enable)
+  (org-roam-db-autosync-enable)
   ;; https://www.orgroam.com/manual.html#Roam-Protocol
   (global-set-key (kbd "C-x M-n l") 'org-roam-buffer-toggle)
   (global-set-key (kbd "C-x M-n f") 'org-roam-node-find)

@@ -1,5 +1,3 @@
-(straight-use-package 'realgud)
-
 (setq gdb-show-main t
       gdb-many-windows t)
 

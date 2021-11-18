@@ -141,9 +141,6 @@
 (unless (window-system)
   (xterm-mouse-mode +1))
 
-(add-hook 'after-init-hook
-          (lambda ()
-            (when (window-system)
-              (cd "~"))))
+(when (window-system) (cd "~"))
 
 (provide 'init-defaults)
