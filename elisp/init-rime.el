@@ -29,8 +29,8 @@
 
 (autoload #'toggle-input-method "rime" nil t)
 
-(global-set-key (kbd "C-SPC") 'toggle-input-method)
-(global-set-key (kbd "C-@") 'toggle-input-method)
+;; (global-set-key (kbd "C-SPC") 'toggle-input-method)
+;; (global-set-key (kbd "C-@") 'toggle-input-method)
 
 (with-eval-after-load "rime"
   (define-key rime-active-mode-map [tab] 'rime-inline-ascii)

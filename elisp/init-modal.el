@@ -2,6 +2,12 @@
 
 (straight-use-package '(meow :type git :host github :repo "meow-edit/meow"))
 
+(defun +self-insert-in-region ()
+  (interactive)
+  (let* ((e (meow--event-key last-input-event)))
+    (when (use-region-p)
+    (self-insert-command 1))))
+
 (defun meow-setup ()
   (setq meow-cheatsheet-layout meow-cheatsheet-layout-qwerty)
   (meow-motion-overwrite-define-key
@@ -136,7 +142,12 @@
    '("%" . meow-query-replace-regexp)
    '("'" . repeat)
    '("\\" . quoted-insert)
-   '("<escape>" . meow-last-buffer)))
+   '("<escape>" . meow-last-buffer)
+   ;; for smartparens-mode
+   '("\"" . +self-insert-in-region)
+   '("(" . +self-insert-in-region)
+   '(")" . +self-insert-in-region)
+   ))
 
 (setq
  meow-visit-sanitize-completion nil

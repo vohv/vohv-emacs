@@ -61,7 +61,7 @@
 
 ;; `+load-ext-font' must run after frame created.
 ;; So we use `after-init-hook' here.
-(add-hook 'after-init-hook '+load-font)
+(+load-font)
 
 ;; Helper function to enable fixed pitch in buffer
 (defun +use-fixed-pitch ()
