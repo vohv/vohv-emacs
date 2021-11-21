@@ -14,6 +14,10 @@
   (define-key flymake-mode-map (kbd "C-c C-b") #'consult-flymake)
   )
 
+(straight-use-package 'consult-flycheck)
+(with-eval-after-load "flycheck"
+  (define-key flycheck-mode-map (kbd "C-c C-b") #'consult-flycheck))
+
 ;;; eglot
 
 (setq +clangd-executable "clangd")

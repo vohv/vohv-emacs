@@ -2,6 +2,9 @@
 
 (straight-use-package 'flycheck)
 
+(straight-use-package 'dash)
+(require 'dash)
+
 (with-eval-after-load "flycheck"
   (add-to-list 'flycheck-checkers 'c/c++-clang-check))
 
@@ -32,6 +35,10 @@ See URL `http://clang.llvm.org/'."
           ": " (or "fatal error" "error") ": " (optional (message)) line-end))
   :modes (c-mode c++-mode)
   :predicate (lambda () (flycheck-buffer-saved-p))
+  :error-filter (lambda (error)
+                  (-filter (lambda (err)
+                             (eq (buffer-file-name) (flycheck-error-filename err)))
+                           error))
   :working-directory flycheck-clangcheck-find-project-root)
 
 (add-hook 'c-mode-common-hook (lambda ()
