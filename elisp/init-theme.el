@@ -1,10 +1,5 @@
 ;;; -*- lexical-binding: t -*-
 
-;; (straight-use-package '(semantic-stickyfunc-enhance :type git :host github :repo "tuhdo/semantic-stickyfunc-enhance"))
-;; (add-to-list 'semantic-default-submodes 'global-semantic-stickyfunc-mode)
-;; (semantic-mode 1)
-;; (require 'stickyfunc-enhance)
-
 (defface +which-func-face
   '((t (:foreground "Gold" :bold t)))
   "Face for show function location.")
@@ -17,18 +12,19 @@
       )))
 
 (defun +format-mode-line ()
-  (let* ((lhs '((:eval (meow-indicator))
-                (:eval (rime-lighter))
-                " Row %l Col %C"
+  (let* ((lhs '((:eval (when (fboundp 'meow-indent)
+                         (meow-indicator)))
+                " L%l C%C "
+                (:eval (when (fboundp 'rime-lighter)
+                         (rime-lighter)))
                 (:eval (when (bound-and-true-p flycheck-mode) flycheck-mode-line))
                 (:eval (when (bound-and-true-p flymake-mode)
-                         flymake-mode-line-format))
-                ))
+                         flymake-mode-line-format))))
          (rhs '((:eval (+smart-file-name-cached))
                 mode-line-modified
                 " "
                 (:eval mode-name)
-                (vc-mode vc-mode)))
+                (:eval (+vc-branch-name))))
          (ww (window-width))
          (lhs-str (format-mode-line lhs))
          (rhs-str (format-mode-line rhs))
@@ -42,22 +38,13 @@
 
 ;;; theme
 
-(straight-use-package '(dogemacs-theme :type git
-                                      :host github
-                                      :repo "DogLooksGood/dogEmacs"
-                                      :files ("themes/*.el")))
-(straight-use-package 'color-theme-sanityinc-tomorrow)
 
-(require 'graverse-theme)
-(require 'grayscale-theme)
 (require 'joker-theme)
-(require 'minidark-theme)
-(require 'paperlike-theme)
 (require 'printed-theme)
-(require 'storybook-theme)
+(require 'minidark-theme)
 
 (if (window-system)
     (load-theme 'printed t)
-  (load-theme 'joker t))
+  (load-theme 'minidark t))
 
 (provide 'init-theme)

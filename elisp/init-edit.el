@@ -5,7 +5,6 @@
 (require 'smartparens-config)
 
 (add-hook 'prog-mode-hook #'smartparens-mode)
-(add-hook 'lisp-interaction-mode-hook #'smartparens-mode)
 
 (straight-use-package 'symbol-overlay)
 (dolist (hook '(prog-mode-hook html-mode-hook yaml-mode-hook conf-mode-hook))

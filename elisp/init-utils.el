@@ -1,5 +1,10 @@
 ;;; -*- lexical-binding: t -*-
 
+(straight-use-package 'dash)
+
+(require 'dash)
+(require 'subr-x)
+
 (defun +ensure (feature)
   "Make sure FEATURE is required."
   (unless (featurep feature)
@@ -7,32 +12,19 @@
         (require feature)
       (error nil))))
 
-(defun nonempty-lines (str)
-  "Split STR into lines."
-  (split-string str "[\r\n]+" t))
-
-(defun +completing-read-alist-value (prompt alist)
-  (cdr (assoc (completing-read prompt alist) alist)))
-
-(defun +open-config ()
+(defun +in-string-p ()
+  "Return non-nil if inside string, else nil.
+Result depends on syntax table's string quote character."
   (interactive)
-  (find-file (locate-user-emacs-file "init.el")))
+  (or (nth 3 (syntax-ppss))
+      (member 'font-lock-string-face
+              (text-properties-at (point)))))
 
-
-(defun +copy-yank-str (msg &optional clipboard-only)
-  (unless clipboard-only (kill-new msg))
-  msg)
-
-(defun +popup-which-function ()
-  "Popup which function message"
+(defun +in-comment-p ()
+  "Return non-inl if inside comment, else nil.
+Result depends on syntax table's comment character."
   (interactive)
-  (require 'which-func)
-  (let* ((function-name (which-function)))
-    (when function-name
-      (message "Located in function: %s"
-               (propertize
-                function-name
-                'face '+which-func-face)))))
+  (nth 4 (syntax-ppss)))
 
 (defvar +smart-file-name-cache nil)
 
@@ -44,7 +36,14 @@ This function is slow, so we have to use cache."
     (cond
      ((and bfn vc-dir)
       (concat
-       (file-name-base (string-trim-right vc-dir "/")) "/" (file-relative-name bfn vc-dir)))
+       (propertize
+        (car
+         (reverse
+          (split-string (string-trim-right vc-dir "/") "/")))
+        'face
+        'bold)
+       "/"
+       (file-relative-name bfn vc-dir)))
      (bfn bfn)
      (t (buffer-name)))))
 
@@ -56,12 +55,14 @@ This function is slow, so we have to use cache."
             (cons (buffer-name) file-name))
       file-name)))
 
-(defun +profile-M-x ()
-  (unwind-protect
-      (progn
-        (require 'profiler)
-        (profiler-start 'cpu)
-        (call-interactively (key-binding (kbd"M-x"))))
-    (profiler-report)))
+(defun +vc-branch-name ()
+  (when vc-mode
+    (propertize
+     (replace-regexp-in-string
+      "Git[-:]"
+      ""
+      (substring-no-properties vc-mode))
+     'face
+     'bold)))
 
 (provide 'init-utils)

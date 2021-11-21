@@ -8,7 +8,7 @@
                                 (color-rg-search-symbol-in-project "Find regexp")
                                 (project-dired "Dired")
                                 (project-eshell "Eshell")
-                                (magit-status "Magit")))
+                                (magit-project-status "Magit")))
 (require 'project)
 
 (with-eval-after-load "project"
