@@ -69,30 +69,4 @@
   (add-hook 'magit-pre-refresh-hook 'diff-hl-magit-pre-refresh)
   (add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh))
 
-
-;;; libgit build command in window system
-;;
-;; mkdir build && cd build
-;; cmake -G "MinGW Makefiles" ..
-;; make
-;;
-(when +libgit-enable
-  (when (eq 'w32 (window-system))
-    (setq libgit--module-file
-          (locate-user-emacs-file "straight/build/libgit/build/libegit2.dll")))
-
-  (straight-use-package 'magit-libgit)
-  (require 'magit-libgit))
-
-;;; forge
-(straight-use-package 'forge)
-(with-eval-after-load "forge"
-  (push '("github.xsky.com" "github.xsky.com/api/v3"
-          "github.xsky.com" forge-github-repository)
-        forge-alist))
-
-;;; github review
-(straight-use-package 'github-review)
-(with-eval-after-load "github-review"
-  (setq github-review-host "github.xsky.com/api/v3"))
 (provide 'init-git)
