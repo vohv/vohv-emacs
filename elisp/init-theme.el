@@ -20,7 +20,10 @@
                 (:eval (when (bound-and-true-p flycheck-mode) flycheck-mode-line))
                 (:eval (when (bound-and-true-p flymake-mode)
                          flymake-mode-line-format))))
-         (rhs '((:eval (+smart-file-name-cached))
+         (rhs '((:eval (when (fboundp 'eglot--managed-mode)
+                         (eglot--mode-line-format)))
+                " "
+                (:eval (+smart-file-name-cached))
                 mode-line-modified
                 " "
                 (:eval mode-name)

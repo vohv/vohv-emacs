@@ -30,7 +30,8 @@
     (define-key m (kbd "J") 'citre-jump-back)
     (define-key m (kbd "p") 'citre-peek)
     (define-key m (kbd "P") 'citre-ace-peek)
-    (define-key m (kbd "u") 'citre-update-this-tags-file)))
+    (define-key m (kbd "u") 'citre-update-this-tags-file)
+    m))
 (defalias 'citre-keymap citre-keymap)
 (global-set-key (kbd "C-c v") 'citre-keymap)
 
@@ -63,5 +64,39 @@
                                 (format "%s\n%s" args arg))
                               exculde-args ""))))
     (insert exculde-cmd)))
+
+(define-advice xref--create-fetcher (:around (-fn &rest -args) fallback)
+  (let ((fetcher (apply -fn -args))
+        (citre-fetcher
+         (let ((xref-backend-functions '(citre-xref-backend t)))
+           (ignore xref-backend-functions)
+           (apply -fn -args))))
+    (lambda ()
+      (or (with-demoted-errors "%s, fallback to citre"
+            (funcall fetcher))
+          (funcall citre-fetcher)))))
+
+(defun lsp-citre-capf-function ()
+  "A capf backend that tries lsp first, then Citre."
+  (let ((lsp-result (pcase +lsp
+                      ('lsp
+                       (and (fboundp #'lsp-completion-at-point)
+                            (lsp-completion-at-point)))
+                      ('eglot
+                       (and (fboundp #'eglot-completion-at-point)
+                            (eglot-completion-at-point))))))
+    (if (and lsp-result
+             (try-completion
+              (buffer-substring (nth 0 lsp-result)
+                                (nth 1 lsp-result))
+              (nth 2 lsp-result)))
+        lsp-result
+      (citre-completion-at-point))))
+
+(defun enable-lsp-citre-capf-backend ()
+  "Enable the lsp + Citre capf backend in current buffer."
+  (add-hook 'completion-at-point-functions #'lsp-citre-capf-function nil t))
+
+(add-hook 'citre-mode-hook #'enable-lsp-citre-capf-backend)
 
 (provide 'init-citre)

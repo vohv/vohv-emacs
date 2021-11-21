@@ -5,7 +5,7 @@
 (straight-use-package 'lsp-mode)
 
 (defvar +enable-lsp nil)
-(defvar +lsp 'lsp)
+(defvar +lsp 'eglot)
 
 ;;; flymake
 (autoload #'flymake-mode "flymake" nil t)
@@ -24,10 +24,12 @@
                           "--malloc-trim"
                           "-j=12"))
 
-
 (setq
- eglot-stay-out-of nil
+ eglot-stay-out-of '()
  eglot-ignored-server-capabilites '(:documentHighlightProvider))
+
+(add-to-list 'eglot-stay-out-of 'company)
+(add-to-list 'eglot-stay-out-of 'flymake)
 
 (defun set-eglot-client (mode server-call)
   (add-to-list 'eglot-server-programs `(,mode . ,server-call)))
@@ -58,6 +60,10 @@
 
 (defun +lsp-start ()
   (interactive)
+  (when (fboundp 'citre-mode)
+    (setq-default citre-enable-xref-integration nil)
+    (setq-default citre-enable-capf-integration nil)
+    (setq-default citre-enable-imenu-integration nil))
   (if (equal 'lsp +lsp)
       (lsp)
     (eglot-ensure)))
