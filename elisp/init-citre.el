@@ -46,4 +46,22 @@
                 color-rg-search-project-with-type))
   (advice-add func :before 'my--push-point-to-xref-marker-stack))
 
+(defun +citre-insert-exclued-submodules-cmd ()
+  (interactive)
+  (require 'magit-submodule)
+  (let* ((exclude-arg-func
+          (lambda (path)
+            (format "--exclude=%s" path)))
+         (module-paths
+          (let ((default-directory (citre-project-root)))
+            (magit-list-module-paths)))
+         (exculde-args
+          (mapcar exclude-arg-func module-paths))
+         (exculde-cmd
+          (format "%s\n"
+                  (seq-reduce (lambda (args arg)
+                                (format "%s\n%s" args arg))
+                              exculde-args ""))))
+    (insert exculde-cmd)))
+
 (provide 'init-citre)
