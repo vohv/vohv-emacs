@@ -5,7 +5,6 @@
                         :host github
                         :repo "org-roam/org-roam"
                         :files (:defaults "extensions/*")))
-(straight-use-package 'org-superstar)
 (straight-use-package 'ob-restclient)
 (straight-use-package '(org-html-themify
                         :type git
@@ -16,13 +15,11 @@
 (autoload 'org-html-themify-mode "org-html-themify" "" t nil)
 (add-hook 'org-mode-hook 'org-html-themify-mode)
 (setq org-html-themify-themes
-        '((dark . doom-one)
-          (light . doom-one-light)))
+      '((dark . joker)
+        (light . printed)))
 
 (with-eval-after-load "org-html-themify"
   (require 'hl-line))
-
-(add-hook 'org-mode-hook (lambda () (org-superstar-mode 1)))
 
 (setq org-default-notes-file "~/org/inbox.org")
 (setq org-agenda-files '("~/org/inbox.org"
@@ -305,21 +302,25 @@
            :immediate-finish t
            :unnarrowed t)))
 
+(defvar org-roam-keymap
+  (let ((m (make-keymap)))
+    (define-key m (kbd "l") 'org-roam-buffer-toggle)
+    (define-key m (kbd "f") 'org-roam-node-find)
+    (define-key m (kbd "g") 'org-roam-graph)
+    (define-key m (kbd "i") 'org-roam-node-insert)
+    (define-key m (kbd "c") 'org-roam-capture)
+    (define-key m (kbd "j") 'org-roam-dailies-capture-today)
+    m))
+(defalias 'org-roam-keymap org-roam-keymap)
+(global-set-key (kbd "C-x M-n") 'org-roam-keymap)
+
 (with-eval-after-load "org-roam"
   (org-roam-db-autosync-enable)
   ;; https://www.orgroam.com/manual.html#Roam-Protocol
-  (global-set-key (kbd "C-x M-n l") 'org-roam-buffer-toggle)
-  (global-set-key (kbd "C-x M-n f") 'org-roam-node-find)
-  (global-set-key (kbd "C-x M-n g") 'org-roam-graph)
-  (global-set-key (kbd "C-x M-n i") 'org-roam-node-insert)
-  (global-set-key (kbd "C-x M-n c") 'org-roam-capture)
-  (global-set-key (kbd "C-x M-n j") 'org-roam-dailies-capture-today)
   (unless (file-directory-p org-roam-directory)
-    (make-directory org-roam-directory))
-  )
+    (make-directory org-roam-directory)))
 
-(require 'org-roam)
-
+(autoload #'org-roam-buffer-toggle "org-roam" nil t)
 
 (defun +org-init ()
   (variable-pitch-mode 1))
