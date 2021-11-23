@@ -3,9 +3,12 @@
 (setq comp-deferred-compilation-deny-list ())
 (setq straight-vc-git-default-clone-depth 1)
 
+(setq straight-build-dir (expand-file-name
+                          (concat "straight/build" "-" emacs-version)
+                          user-emacs-directory))
 (setq straight-disable-native-compile
       (when (fboundp 'native-comp-available-p)
-	(not (native-comp-available-p))))
+	    (not (native-comp-available-p))))
 
 (defvar bootstrap-version)
 (let ((bootstrap-file
