@@ -23,4 +23,5 @@
      (require 'init-sh)
      (require 'init-cc)
      (require 'init-window)
+     (require 'init-docker)
      (require 'init-misc)))
