@@ -185,6 +185,7 @@
   (add-to-list 'meow-mode-state-list '(color-rg-mode . motion))
   (add-to-list 'meow-mode-state-list '(cargo-process-mode . normal))
   (add-to-list 'meow-mode-state-list '(shell-mode . normal))
+  (add-to-list 'meow-mode-state-list '(elfeed-dashboard-mode . motion))
   (setq meow-grab-fill-commands nil)
   (setq meow-visit-sanitize-completion t)
   ;; use << and >> to select to bol/eol

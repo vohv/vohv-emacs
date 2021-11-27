@@ -1,0 +1,40 @@
+* Basics
+
+ [U] Update Elfeed
+ [S] Search
+ [E] Edit
+ [g] Refresh counts
+ [q] Kill dashboard
+
+* Bookmarks
+
+ [s] Starred     [[elfeed:+starred][    0]]
+ [r] Recent      [[elfeed:-unread][   72]]
+ [u] Unread      ([[elfeed:+unread][  2726]]/[[elfeed:][  2798]])
+ [c] Company     ([[elfeed:+unread +company][   118]]/[[elfeed:+company][   118]])
+ [b] Blogs       ([[elfeed:+unread +blog][  1253]]/[[elfeed:+blog][  1253]])
+ [e] Emacs       ([[elfeed:+unread +emacs][   420]]/[[elfeed:+emacs][   420]])
+ [n] News        ([[elfeed:+unread +news][   243]]/[[elfeed:+news][   243]])
+ [i] Image       ([[elfeed:+unread +pic][   110]]/[[elfeed:+pic][   110]])
+
+* Configuration
+  :PROPERTIES:
+  :VISIBILITY: hideall
+  :END:
+
+  Press "E" to edit and M-x elfeed-dashboard-mode to go back
+
+  #+STARTUP: showall showstars indent
+  #+KEYMAP: s | elfeed-dashboard-query "+starred"
+  #+KEYMAP: r | elfeed-dashboard-query "-unread"
+  #+KEYMAP: u | elfeed-dashboard-query "+unread"
+  #+KEYMAP: c | elfeed-dashboard-query "+unread +company"
+  #+KEYMAP: b | elfeed-dashboard-query "+unread +blog"
+  #+KEYMAP: e | elfeed-dashboard-query "+unread +emacs"
+  #+KEYMAP: n | elfeed-dashboard-query "+unread +news"
+  #+KEYMAP: i | elfeed-dashboard-query "+unread +pic"
+  #+KEYMAP: S | elfeed
+  #+KEYMAP: g | elfeed-dashboard-update-links
+  #+KEYMAP: U | elfeed-dashboard-update
+  #+KEYMAP: E | elfeed-dashboard-edit
+  #+KEYMAP: q | kill-current-buffer

@@ -138,7 +138,7 @@
 (setq-default max-mini-window-height 0.1)
 
 (defvar +proxy-host "localhost")
-(defvar +proxy-port 1089)
+(defvar +proxy-port 7890)
 
 (unless (window-system)
   (xterm-mouse-mode +1))
