@@ -8,6 +8,7 @@
 
 (require 'init-gc)
 (require 'init-ui)
+(require 'init-utils)
 
 (let ((private-conf (locate-user-emacs-file "private.el")))
   (when (file-exists-p private-conf)

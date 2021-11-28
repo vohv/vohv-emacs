@@ -25,7 +25,7 @@
 (defvar +org nil)
 (defvar +rime nil)
 (defvar +rss nil)
-(defvar +tree-sitter nil)
+(defvar +tree-sitter t)
 
 (when +tree-sitter
   (require 'init-tree-sitter))

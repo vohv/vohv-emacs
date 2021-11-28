@@ -65,4 +65,11 @@ This function is slow, so we have to use cache."
      'face
      'bold)))
 
+(defun +which-linux-distribution ()
+  "from lsb_release"
+  (interactive)
+  (when-let* ((lsb_release_command (executable-find "lsb_release"))
+              (is-linux (eq system-type 'gnu/linux)))
+    (shell-command-to-string "lsb_release -sir")))
+
 (provide 'init-utils)
