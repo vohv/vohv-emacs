@@ -30,7 +30,7 @@
 (when +tree-sitter
   (require 'init-tree-sitter))
 
-(when +org 
+(when +org
   (require 'init-org))
 
 (when +rime
