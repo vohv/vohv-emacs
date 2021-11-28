@@ -69,4 +69,9 @@
   (add-hook 'magit-pre-refresh-hook 'diff-hl-magit-pre-refresh)
   (add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh))
 
+
+(straight-use-package 'blamer)
+(setq blamer-idle-time 0.3
+      blamer-min-offset 70)
+
 (provide 'init-git)

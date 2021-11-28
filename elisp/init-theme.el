@@ -1,15 +1,14 @@
 ;;; -*- lexical-binding: t -*-
 
 (defface +which-func-face
-  '((t (:foreground "Gold" :bold t)))
+  '((t (:foreground "Blue" :bold t)))
   "Face for show function location.")
 
 (defun +which-func-format ()
   (require 'which-func)
-  (let ((function-name (which-function)))
-    (when function-name
-      `("[" ,(propertize function-name 'face '+which-func-face) "]")
-      )))
+  (when-let* ((function-name (gethash (selected-window) which-func-table)))
+    `("[" ,(propertize function-name 'face 'which-func) "]")
+    ))
 
 (defun +format-mode-line ()
   (let* ((lhs '((:eval (when (fboundp 'meow-indent)
@@ -19,11 +18,13 @@
                          (rime-lighter)))
                 (:eval (when (bound-and-true-p flycheck-mode) flycheck-mode-line))
                 (:eval (when (bound-and-true-p flymake-mode)
-                         flymake-mode-line-format))))
-         (rhs '((:eval (when (fboundp 'eglot--managed-mode)
-                         (eglot--mode-line-format)))
+                         flymake-mode-line-format))
                 " "
-                (:eval (+smart-file-name-cached))
+                (:eval (when (bound-and-true-p which-func-mode) (+which-func-format)))
+                " "
+                (:eval (when (bound-and-true-p eglot--managed-mode)
+                         `(" [" eglot--mode-line-format "] ")))))
+         (rhs '((:eval (+smart-file-name-cached))
                 mode-line-modified
                 " "
                 (:eval mode-name)
