@@ -22,6 +22,7 @@
 (require 'init-window)
 (require 'init-docker)
 (require 'init-misc)
+(require 'init-scheme)
 
 (defvar +org nil)
 (defvar +rime nil)
