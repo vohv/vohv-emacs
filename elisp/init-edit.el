@@ -2,9 +2,9 @@
 
 (straight-use-package 'smartparens)
 
-(require 'smartparens-config)
+;; (require 'smartparens-config)
 
-(add-hook 'prog-mode-hook #'smartparens-mode)
+;; (add-hook 'prog-mode-hook #'smartparens-mode)
 
 (straight-use-package 'symbol-overlay)
 (dolist (hook '(prog-mode-hook html-mode-hook yaml-mode-hook conf-mode-hook))
@@ -12,8 +12,9 @@
 (with-eval-after-load "symbol-overlay"
   (define-key symbol-overlay-mode-map (kbd "M-i") 'symbol-overlay-put)
   (define-key symbol-overlay-mode-map (kbd "M-I") 'symbol-overlay-remove-all)
-  (define-key symbol-overlay-mode-map (kbd "M-n") 'symbol-overlay-jump-next)
-  (define-key symbol-overlay-mode-map (kbd "M-p") 'symbol-overlay-jump-prev))
+  ;; (define-key symbol-overlay-mode-map (kbd "M-n") 'symbol-overlay-jump-next)
+  ;; (define-key symbol-overlay-mode-map (kbd "M-p") 'symbol-overlay-jump-prev)
+  )
 
 ;;; whitespace
 (custom-set-faces

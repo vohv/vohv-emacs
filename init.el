@@ -7,6 +7,7 @@
 (require 'init-minibuffer)
 (require 'init-edit)
 
+
 (require 'init-completion)
 (require 'init-project)
 (require 'init-git)
@@ -28,7 +29,8 @@
 (defvar +tree-sitter t)
 
 (when +tree-sitter
-  (require 'init-tree-sitter))
+  (require 'init-tree-sitter)
+  (require 'init-grammatical-edit))
 
 (when +org
   (require 'init-org))

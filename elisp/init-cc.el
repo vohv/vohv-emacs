@@ -44,8 +44,7 @@ See URL `http://clang.llvm.org/'."
 (add-hook 'c-mode-common-hook (lambda ()
                                 (flycheck-mode 1)
                                 (define-key c-mode-base-map (kbd "C-x C-o") #'ff-find-other-file)
-                                (c-set-style "stroustrup")
-                                (setq-default c-basic-offset 4)))
+                                (c-set-style "gnu")))
 
 (straight-use-package 'modern-cpp-font-lock)
 ;; (modern-c++-font-lock-global-mode)
