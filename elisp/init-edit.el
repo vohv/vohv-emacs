@@ -1,11 +1,5 @@
 ;;; -*- lexical-binding: t -*-
 
-(straight-use-package 'smartparens)
-
-;; (require 'smartparens-config)
-
-;; (add-hook 'prog-mode-hook #'smartparens-mode)
-
 (straight-use-package 'symbol-overlay)
 (dolist (hook '(prog-mode-hook html-mode-hook yaml-mode-hook conf-mode-hook))
   (add-hook hook 'symbol-overlay-mode))

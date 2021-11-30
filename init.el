@@ -33,6 +33,11 @@
   (require 'init-tree-sitter)
   (require 'init-grammatical-edit))
 
+(unless +tree-sitter
+  (straight-use-package 'smartparens)
+  (require 'smartparens-config)
+  (add-hook 'prog-mode-hook #'smartparens-mode))
+
 (when +org
   (require 'init-org))
 

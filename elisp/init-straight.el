@@ -6,6 +6,8 @@
 (setq straight-build-dir (expand-file-name
                           (concat "straight/build" "-" emacs-version)
                           user-emacs-directory))
+
+(setq straight-disable-byte-compilation t)
 (setq straight-disable-native-compile
       (when (fboundp 'native-comp-available-p)
 	    (not (native-comp-available-p))))
