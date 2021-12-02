@@ -41,8 +41,8 @@
    '("w" . other-window)
    '("W" . window-swap-states)
    '("o" . delete-other-windows)
-   '("s" . split-window-right)
-   '("-" . split-window-below)
+   '("s" . split-window-below)
+   '("-" . split-window-right)
    ;; high frequency commands
    '(";" . comment-dwim)
    '("K" . kill-this-buffer)

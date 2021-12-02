@@ -140,8 +140,8 @@
 (defvar +proxy-host "localhost")
 (defvar +proxy-port 7890)
 
-(unless (window-system)
-  (xterm-mouse-mode +1))
+;; (unless (window-system)
+;;   (xterm-mouse-mode +1))
 
 (when (window-system) (cd "~"))
 

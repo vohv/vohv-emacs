@@ -33,6 +33,8 @@
         ))
 (global-set-key [remap rgrep] '+color-rg-dwim)
 
+(setq color-rg-search-no-ignore-file nil)
+
 ;;; rg.el
 ;; (straight-use-package 'rg)
 ;; (global-set-key (kbd "C-c s") #'rg-menu)
