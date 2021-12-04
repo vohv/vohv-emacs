@@ -33,7 +33,7 @@
        charset
        (font-spec :family +font-unicode-family)))))
 
-(defun +load-font ()
+(defun +load-font (&rest _ignore)
   (+load-base-font)
   (+load-ext-font))
 
@@ -62,6 +62,9 @@
 ;; `+load-ext-font' must run after frame created.
 ;; So we use `after-init-hook' here.
 (add-hook 'after-init-hook '+load-font)
+
+(advice-add 'load-theme :after '+load-font)
+(advice-add 'disable-theme :after '+load-font)
 
 ;; Helper function to enable fixed pitch in buffer
 (defun +use-fixed-pitch ()

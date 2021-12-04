@@ -23,7 +23,7 @@
 (require 'init-docker)
 (require 'init-misc)
 (require 'init-scheme)
-
+(require 'init-latex)
 (defvar +org nil)
 (defvar +rime nil)
 (defvar +rss nil)

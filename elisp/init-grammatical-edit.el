@@ -43,6 +43,8 @@
                'makefile-gmake-mode-hook
                'python-mode-hook
                'rust-mode-hook
+               'scheme-mode-hook
+               'latex-mode-hook
                ))
   (add-hook hook (lambda () (grammatical-edit-mode 1))))
 
