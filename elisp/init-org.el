@@ -9,7 +9,7 @@
 (straight-use-package '(org-html-themify
                         :type git
                         :host github
-                        :repo "DogLooksGood/org-html-themify"
+                        :repo "vohv/org-html-themify"
                         :files ("*.el" "*.js" "*.css")))
 
 (autoload 'org-html-themify-mode "org-html-themify" "" t nil)
@@ -288,7 +288,9 @@
 
 
 (with-eval-after-load "org"
-  (+org-babel-setup))
+  (+org-babel-setup)
+  (when sys/wslp
+    (add-to-list 'org-file-apps '("\\.x?html?\\'" . "explorer.exe $(wslpath -w %s)"))))
 (setq browse-url-browser-function 'browse-url-default-browser)
 
 ;;; Org roam

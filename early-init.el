@@ -3,6 +3,7 @@
 (add-to-list 'load-path (locate-user-emacs-file "elisp"))
 (add-to-list 'load-path (locate-user-emacs-file "theme"))
 
+(require 'init-const)
 (require 'init-straight)
 (defvar +straight-use-speedup-mirror nil)
 

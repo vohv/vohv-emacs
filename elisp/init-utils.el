@@ -72,4 +72,15 @@ This function is slow, so we have to use cache."
               (is-linux (eq system-type 'gnu/linux)))
     (shell-command-to-string "lsb_release -sir")))
 
+
+(require 'cl-lib)
+(defmacro make-sparse-keymap-local (&rest bindings)
+  (declare (indent 2))
+  (let ((map (make-symbol "map")))
+    `(let ((,map (make-sparse-keymap)))
+       ,@(cl-loop for (key . cmd) in bindings
+                  collect `(define-key ,map ,key ,cmd))
+       ,map)))
+
+
 (provide 'init-utils)

@@ -145,4 +145,7 @@
 
 (when (window-system) (cd "~"))
 
+(when sys/wslp
+  (setq browse-url-chromium-program "explorer.exe"))
+
 (provide 'init-defaults)
