@@ -66,7 +66,7 @@
    '("P" . pass)
    '("A" . org-agenda)
    '("D" . docker)
-   '("E" . elfeed)
+   '("E" . elfeed-dashboard)
    '("F" . flymake-mode)
    '("\\" . dired-sidebar-toggle-sidebar))
   (meow-motion-overwrite-define-key

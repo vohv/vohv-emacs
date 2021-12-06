@@ -9,14 +9,14 @@
 * Bookmarks
 
  [s] Starred     [[elfeed:+starred][    0]]
- [r] Recent      [[elfeed:-unread][   72]]
- [u] Unread      ([[elfeed:+unread][  2726]]/[[elfeed:][  2798]])
- [c] Company     ([[elfeed:+unread +company][   118]]/[[elfeed:+company][   118]])
- [b] Blogs       ([[elfeed:+unread +blog][  1253]]/[[elfeed:+blog][  1253]])
- [e] Emacs       ([[elfeed:+unread +emacs][   420]]/[[elfeed:+emacs][   420]])
- [n] News        ([[elfeed:+unread +news][   243]]/[[elfeed:+news][   243]])
- [i] Image       ([[elfeed:+unread +pic][   110]]/[[elfeed:+pic][   110]])
-
+ [r] Recent      [[elfeed:-unread][    0]]
+ [u] Unread      ([[elfeed:+unread][  1156]]/[[elfeed:][  1156]])
+ [c] Company     ([[elfeed:+unread +company][    78]]/[[elfeed:+company][    78]])
+ [b] Blogs       ([[elfeed:+unread +blog][   580]]/[[elfeed:+blog][   580]])
+ [e] Emacs       ([[elfeed:+unread +emacs][   231]]/[[elfeed:+emacs][   231]])
+ [n] News        ([[elfeed:+unread +news][   190]]/[[elfeed:+news][   190]])
+ [i] Image       ([[elfeed:+unread +pic][    77]]/[[elfeed:+pic][    77]])
+ [R] 3-days      ([[elfeed:@3-days-ago +unread][     0]]/[[elfeed:@3-days-ago][     0]])
 * Configuration
   :PROPERTIES:
   :VISIBILITY: hideall
@@ -33,6 +33,7 @@
   #+KEYMAP: e | elfeed-dashboard-query "+unread +emacs"
   #+KEYMAP: n | elfeed-dashboard-query "+unread +news"
   #+KEYMAP: i | elfeed-dashboard-query "+unread +pic"
+  #+KEYMAP: R | elfeed-dashboard-query "@3-days-ago +unread"
   #+KEYMAP: S | elfeed
   #+KEYMAP: g | elfeed-dashboard-update-links
   #+KEYMAP: U | elfeed-dashboard-update

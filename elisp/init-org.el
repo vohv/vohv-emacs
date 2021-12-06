@@ -24,8 +24,7 @@
 (setq org-default-notes-file "~/org/inbox.org")
 (setq org-agenda-files '("~/org/inbox.org"
                          "~/org/todo.org"
-                         "~/org/project.org"
-                         "~/org/daily/"))
+                         "~/org/project.org"))
 
 
 (define-key global-map (kbd "C-c l") 'org-store-link)
