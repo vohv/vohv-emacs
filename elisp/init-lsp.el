@@ -4,15 +4,13 @@
 (straight-use-package 'eglot)
 (straight-use-package 'lsp-mode)
 
-(defvar +enable-lsp nil)
 (defvar +lsp 'eglot)
 
 ;;; flymake
 (autoload #'flymake-mode "flymake" nil t)
 
 (with-eval-after-load "flymake"
-  (define-key flymake-mode-map (kbd "C-c C-b") #'consult-flymake)
-  )
+  (define-key flymake-mode-map (kbd "C-c C-b") #'consult-flymake))
 
 (straight-use-package 'consult-flycheck)
 (with-eval-after-load "flycheck"
@@ -30,10 +28,11 @@
 
 (setq
  eglot-stay-out-of '()
- eglot-ignored-server-capabilites '(:documentHighlightProvider))
+ eglot-ignored-server-capabilites '(:documentHighlightProvider)
+ flymake-no-changes-timeout 10)
 
 (add-to-list 'eglot-stay-out-of 'company)
-(add-to-list 'eglot-stay-out-of 'flymake)
+;; (add-to-list 'eglot-stay-out-of 'flymake)
 
 (defun set-eglot-client (mode server-call)
   (add-to-list 'eglot-server-programs `(,mode . ,server-call)))
@@ -51,8 +50,7 @@
      ))
 
   (set-eglot-client '(c++-mode c-mode) (append (list +clangd-executable) +clangd-args))
-  (define-key eglot-mode-map (kbd "C-c C-f") #'+eglot-format-dwim)
-  )
+  (define-key eglot-mode-map (kbd "C-c C-f") #'+eglot-format-dwim))
 
 ;;; lsp-mode
 
@@ -83,8 +81,6 @@
 (with-eval-after-load "lsp-mode"
   (define-key lsp-mode-map (kbd "C-c C-l") '+lsp-command-map))
 
-
-(if +enable-lsp
-    (add-hook 'c-mode-common-hook '+lsp-start))
+(add-hook 'c-mode-common-hook '+lsp-start)
 
 (provide 'init-lsp)

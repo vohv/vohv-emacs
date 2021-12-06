@@ -3,6 +3,10 @@
 (straight-use-package 'tree-sitter)
 (straight-use-package 'tree-sitter-langs)
 
+(when-let* ((distr (+which-linux-distribution)))
+  (when (string-match-p "CentOS 7" (+which-linux-distribution))
+    (setq tsc-dyn-dir (no-littering-expand-etc-file-name "tree-sitter/bin/CentOS7"))))
+
 (with-eval-after-load "tree-sitter"
   (tree-sitter-load 'elisp (no-littering-expand-etc-file-name "tree-sitter-langs/bin/elisp"))
   (tree-sitter-load 'Scheme (no-littering-expand-etc-file-name "tree-sitter-langs/bin/scheme"))
