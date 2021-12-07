@@ -39,3 +39,27 @@
 (when +rss
   (require 'init-rss))
 
+
+(defun eaf-add-app (app)
+  (let* ((app-dir (locate-user-emacs-file "site-lisp/emacs-application-framework"))
+         (app-load-path (expand-file-name app app-dir)))
+    (add-to-list 'load-path app-load-path)
+    (require (intern (format "eaf-%s" app)))))
+
+(when +eaf
+  (add-to-list 'load-path (locate-user-emacs-file "site-lisp/emacs-application-framework"))
+  (setq eaf-proxy-type "http")
+  (setq eaf-proxy-host "127.0.0.1")
+  (setq eaf-proxy-port "7890")
+  (setq eaf-config-location (no-littering-expand-var-file-name "eaf"))
+  (setq eaf-browser-font-family +font-unicode-family)
+  (require 'eaf)
+  (add-hook 'meow-motion-mode-hook
+            (lambda ()
+              (when (derived-mode-p 'eaf-mode)
+                (define-key eaf-mode-map (kbd "M-SPC") meow-leader-keymap)) ))
+  (eaf-add-app "browser")
+  (eaf-add-app "terminal")
+  (eaf-add-app "org-previewer"))
+
+(require 'eaf-org-previewer)

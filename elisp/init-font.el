@@ -3,6 +3,7 @@
 (defvar +font-wide-family "Source Code Pro")
 (defvar +font-tall-family "Source Code Pro")
 (defvar +font-unicode-family "LXGW WenKai")
+(defvar +font-symbol-family "DejaVu Sans Mono")
 (defvar +fixed-pitch-family "Sarasa Mono SC")
 (defvar +variable-pitch-family "LXGW WenKai")
 (defvar +font-rescale '((tall . 1.0) (wide . 1.0)))
@@ -27,11 +28,15 @@
     (setq face-font-rescale-alist
           `((,+font-unicode-family . ,rescale))))
   (when window-system
-    (dolist (charset '(kana han hangul cjk-misc bopomofo symbol))
+    (dolist (charset '(kana han hangul cjk-misc bopomofo))
       (set-fontset-font
        (frame-parameter nil 'font)
        charset
-       (font-spec :family +font-unicode-family)))))
+       (font-spec :family +font-unicode-family)))
+    (set-fontset-font
+     (frame-parameter nil 'font)
+     'symbol
+     (font-spec :family +font-symbol-family))))
 
 (defun +load-font (&rest _ignore)
   (+load-base-font)
