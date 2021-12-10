@@ -26,10 +26,9 @@
                           "--malloc-trim"
                           "-j=12"))
 
-(setq
- eglot-stay-out-of '()
- eglot-ignored-server-capabilites '(:documentHighlightProvider)
- flymake-no-changes-timeout 10)
+(setq eglot-stay-out-of '())
+(setq  eglot-ignored-server-capabilites '(:documentHighlightProvider))
+(setq  eglot-send-changes-idle-time 10)
 
 (add-to-list 'eglot-stay-out-of 'company)
 ;; (add-to-list 'eglot-stay-out-of 'flymake)
