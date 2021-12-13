@@ -9,25 +9,10 @@
     (self-insert-command 1))))
 
 (defun meow-setup ()
+  (setq meow-cheatsheet-physical-layout meow-cheatsheet-physical-layout-ansi)
   (setq meow-cheatsheet-layout meow-cheatsheet-layout-qwerty)
-  (meow-motion-overwrite-define-key
-   '("j" . meow-next)
-   '("k" . meow-prev))
+
   (meow-leader-define-key
-   ;; SPC j/k will run the original command in MOTION state.
-   '("j" . meow-motion-origin-command)
-   '("k" . meow-motion-origin-command)
-   ;; Use SPC (0-9) for digit arguments.
-   '("1" . meow-digit-argument)
-   '("2" . meow-digit-argument)
-   '("3" . meow-digit-argument)
-   '("4" . meow-digit-argument)
-   '("5" . meow-digit-argument)
-   '("6" . meow-digit-argument)
-   '("7" . meow-digit-argument)
-   '("8" . meow-digit-argument)
-   '("9" . meow-digit-argument)
-   '("0" . meow-digit-argument)
    ;; cheatsheet
    '("?" . meow-cheatsheet)
    ;; high frequency keybindings
@@ -43,6 +28,8 @@
    '("o" . delete-other-windows)
    '("s" . split-window-below)
    '("-" . split-window-right)
+   ;; overwrited motion key
+   '("$" . "H-$")
    ;; high frequency commands
    '(";" . comment-dwim)
    '("K" . kill-this-buffer)
@@ -52,10 +39,11 @@
    '("R" . +window-rotate-layout)
    '("f" . find-file)
    '("i" . imenu)
-   '("a" . "M-x")
+   '("a" . execute-extended-command)
    '("=" . "C-c ^")
    '("p" . "C-x p f")
-   '("t" . project-switch-to-buffer)
+   '("j" . project-switch-to-buffer)
+   '("t" . tab-bar-switch-to-tab)
    '("v" . "C-x g")
    '("l" . "C-x p p")
    '("n" . "C-x M-n")
@@ -70,7 +58,13 @@
    '("F" . flymake-mode)
    '("\\" . dired-sidebar-toggle-sidebar))
   (meow-motion-overwrite-define-key
-   '("'" . repeat))
+   '("$" . repeat)
+   '("'" . repeat)
+   '("n" . next-line)
+   '("p" . previous-line)
+   '("M-n" . "H-n")
+   '("M-p" . "H-p")
+   '("<escape>" . +project-previous-buffer))
   (meow-normal-define-key
    '("0" . meow-expand-0)
    '("9" . meow-expand-9)

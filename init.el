@@ -24,6 +24,7 @@
 (require 'init-misc)
 (require 'init-scheme)
 (require 'init-latex)
+(require 'init-tab-bar)
 (defvar +org nil)
 (defvar +rime nil)
 (defvar +rss nil)
