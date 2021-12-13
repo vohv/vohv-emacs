@@ -84,7 +84,10 @@
                             (lsp-completion-at-point)))
                       ('eglot
                        (and (fboundp #'eglot-completion-at-point)
-                            (eglot-completion-at-point))))))
+                            (eglot-completion-at-point)))
+                      ('nox
+                       (and (fboundp #'nox-completion-at-point)
+                            (nox-completion-at-point))))))
     (if (and lsp-result
              (try-completion
               (buffer-substring (nth 0 lsp-result)

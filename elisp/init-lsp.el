@@ -3,8 +3,12 @@
 (straight-use-package 'flymake)
 (straight-use-package 'eglot)
 (straight-use-package 'lsp-mode)
+(straight-use-package '(nox
+                        :type git
+                        :host github
+                        :repo "manateelazycat/nox"))
 
-(defvar +lsp 'eglot)
+(defvar +lsp 'nox)
 
 ;;; flymake
 (autoload #'flymake-mode "flymake" nil t)
@@ -18,8 +22,8 @@
 
 ;;; eglot
 
-(setq +clangd-executable "clangd")
-(setq +clangd-args (list "--clang-tidy"
+(defvar +clangd-executable "clangd")
+(defvar +clangd-args (list "--clang-tidy"
                           "--enable-config"
                           "--header-insertion=never"
                           "--pch-storage=memory"
@@ -59,15 +63,34 @@
 
 (setq lsp-keymap-prefix "C-c C-M-l")
 
+;;; nox
+(defun set-nox-client (mode server-call)
+  (add-to-list 'nox-server-programs `(,mode . ,server-call)))
+
+(with-eval-after-load "nox"
+  (defun +nox-format-dwim (&optional arg)
+    (interactive "P")
+    (cond
+     ((use-region-p)
+      (nox-format (region-beginning) (region-end)))
+     ((= (line-beginning-position) (line-end-position))
+      (c-indent-line))
+     (t
+      (nox-format (line-beginning-position) (line-end-position)))
+     ))
+  (set-nox-client '(c++-mode c-mode) (append (list +clangd-executable) +clangd-args))
+  (define-key nox-mode-map (kbd "C-c C-f") #'nox-format-dwim))
+
+
 (defun +lsp-start ()
   (interactive)
   (when (fboundp 'citre-mode)
     (setq-default citre-enable-xref-integration nil)
     (setq-default citre-enable-capf-integration nil)
     (setq-default citre-enable-imenu-integration nil))
-  (if (equal 'lsp +lsp)
-      (lsp)
-    (eglot-ensure)))
+  (cond ((equal 'lsp +lsp) (lsp))
+        ((equal 'eglot +lsp) (eglot-ensure))
+        ((equal 'nox +lsp) (nox-ensure))))
 
 (defvar +lsp-command-map
   (let ((m (make-keymap)))
