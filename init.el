@@ -6,8 +6,6 @@
 (require 'init-modal)
 (require 'init-minibuffer)
 (require 'init-edit)
-
-
 (require 'init-completion)
 (require 'init-project)
 (require 'init-git)
@@ -25,19 +23,12 @@
 (require 'init-scheme)
 (require 'init-latex)
 (require 'init-tab-bar)
+(require 'init-tree-sitter)
+(require 'init-grammatical-edit)
+
 (defvar +org nil)
 (defvar +rime nil)
 (defvar +rss nil)
-(defvar +tree-sitter t)
-
-(when +tree-sitter
-  (require 'init-tree-sitter)
-  (require 'init-grammatical-edit))
-
-(unless +tree-sitter
-  (straight-use-package 'smartparens)
-  (require 'smartparens-config)
-  (add-hook 'prog-mode-hook #'smartparens-mode))
 
 (when +org
   (require 'init-org))

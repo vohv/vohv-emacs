@@ -25,13 +25,14 @@
   (define-key grammatical-edit-mode-map (kbd "C-k") 'grammatical-edit-kill)
 
   (define-key grammatical-edit-mode-map (kbd "M-\"") 'grammatical-edit-wrap-double-quote)
-  (define-key grammatical-edit-mode-map (kbd "M-[") 'grammatical-edit-wrap-bracket)
+  (when window-system
+    (define-key grammatical-edit-mode-map (kbd "M-[") 'grammatical-edit-wrap-bracket))
   (define-key grammatical-edit-mode-map (kbd "M-{") 'grammatical-edit-wrap-curly)
   (define-key grammatical-edit-mode-map (kbd "M-(") 'grammatical-edit-wrap-round)
   (define-key grammatical-edit-mode-map (kbd "M-)") 'grammatical-edit-unwrap)
 
-  (define-key grammatical-edit-mode-map (kbd "M-p") 'grammatical-edit-jump-right)
-  (define-key grammatical-edit-mode-map (kbd "M-n") 'grammatical-edit-jump-left)
+  (define-key grammatical-edit-mode-map (kbd "M-n") 'grammatical-edit-jump-right)
+  (define-key grammatical-edit-mode-map (kbd "M-p") 'grammatical-edit-jump-left)
   (define-key grammatical-edit-mode-map (kbd "M-:") 'grammatical-edit-jump-out-pair-and-newline))
 
 (dolist (hook (list
