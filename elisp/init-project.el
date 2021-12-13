@@ -16,6 +16,17 @@
   (define-key project-prefix-map "f" 'find-file-in-project-by-selected)
   (define-key project-prefix-map "g" 'color-rg-search-symbol-in-project))
 
+(defun +project-previous-buffer (arg)
+  (interactive "P")
+  (unless arg
+    (if-let ((pr (project-current)))
+        (switch-to-buffer
+         (->> (project--buffer-list pr)
+              (--remove (or (minibufferp it)
+                            (get-buffer-window-list it)))
+              (car)))
+      (mode-line-other-buffer))))
+
 (require 'find-file-in-project)
 
 (with-eval-after-load "find-file-in-project"
