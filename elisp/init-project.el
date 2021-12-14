@@ -5,7 +5,7 @@
 (straight-use-package 'project)
 
 (setq project-switch-commands '((find-file-in-project-by-selected "Find file")
-                                (color-rg-search-symbol-in-project "Find regexp")
+                                (color-rg-search-input-in-project "Find regexp")
                                 (project-dired "Dired")
                                 (project-eshell "Eshell")
                                 (magit-project-status "Magit")))
@@ -14,7 +14,13 @@
 (with-eval-after-load "project"
   (define-key project-prefix-map "m" #'magit-project-status)
   (define-key project-prefix-map "f" 'find-file-in-project-by-selected)
-  (define-key project-prefix-map "g" 'color-rg-search-symbol-in-project))
+  (define-key project-prefix-map "g" 'color-rg-search-input-in-project)
+
+  ;; remember current project after project-switch-project for custom
+  ;; commands (eg. find-file-in-project-by-selected)
+  (advice-add 'project-switch-project :after (lambda (&rest _ignore)
+                                               (when-let* ((pr (project-current)))
+                                                 (project-remember-project pr)))))
 
 (defun +project-previous-buffer (arg)
   (interactive "P")
