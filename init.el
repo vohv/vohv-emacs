@@ -25,6 +25,7 @@
 (require 'init-tab-bar)
 (require 'init-tree-sitter)
 (require 'init-grammatical-edit)
+(require 'init-cmake)
 
 (defvar +org nil)
 (defvar +rime nil)
