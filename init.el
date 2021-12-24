@@ -29,6 +29,7 @@
 (defvar +org nil)
 (defvar +rime nil)
 (defvar +rss nil)
+(defvar +eaf nil)
 
 (when +org
   (require 'init-org))
@@ -61,5 +62,3 @@
   (eaf-add-app "browser")
   (eaf-add-app "terminal")
   (eaf-add-app "org-previewer"))
-
-(require 'eaf-org-previewer)
