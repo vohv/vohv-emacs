@@ -7,20 +7,33 @@
   (when (string-match-p "CentOS 7" (+which-linux-distribution))
     (setq tsc-dyn-dir (no-littering-expand-etc-file-name "tree-sitter/bin/CentOS7"))))
 
+(defvar +tree-sitter-elisp-load-path nil)
+(defvar +tree-sitter-scheme-load-path nil)
+(defvar +tree-sitter-latex-load-path nil)
 (with-eval-after-load "tree-sitter"
   ;; support elisp
-  (tree-sitter-load 'elisp (no-littering-expand-etc-file-name "tree-sitter-langs/bin/elisp"))
-  (add-to-list 'tree-sitter-major-mode-language-alist '(emacs-lisp-mode . elisp))
-  (add-to-list 'tree-sitter-major-mode-language-alist '(lisp-interaction-mode . elisp))
+  (cond (sys/macp (setq +tree-sitter-elisp-load-path (no-littering-expand-etc-file-name "tree-sitter-langs/OSX/elisp")))
+        (sys/linuxp (setq +tree-sitter-elisp-load-path (no-littering-expand-etc-file-name "tree-sitter-langs/Linux/elisp"))))
+
+  (when +tree-sitter-elisp-load-path
+    (tree-sitter-load 'elisp +tree-sitter-elisp-load-path)
+    (add-to-list 'tree-sitter-major-mode-language-alist '(emacs-lisp-mode . elisp))
+    (add-to-list 'tree-sitter-major-mode-language-alist '(lisp-interaction-mode . elisp))
+    )
 
   ;; support scheme
-  (tree-sitter-load 'Scheme (no-littering-expand-etc-file-name "tree-sitter-langs/bin/scheme"))
+  (cond (sys/linuxp (setq +tree-sitter-scheme-load-path (no-littering-expand-etc-file-name "tree-sitter-langs/Linux/scheme")))
+        (sys/macp nil))
+  (when +tree-sitter-scheme-load-path
+    (tree-sitter-load 'Scheme +tree-sitter-scheme-load-path)
+    (add-to-list 'tree-sitter-major-mode-language-alist '(scheme-mode . Scheme)))
 
   ;; support latex
-  (add-to-list 'tree-sitter-major-mode-language-alist '(latex-mode . latex))
-
-  (tree-sitter-load 'latex (no-littering-expand-etc-file-name "tree-sitter-langs/bin/latex"))
-  (add-to-list 'tree-sitter-major-mode-language-alist '(scheme-mode . Scheme)))
+  (cond (sys/linuxp (setq +tree-sitter-latex-load-path (no-littering-expand-etc-file-name "tree-sitter-langs/Linux/latex")))
+        (sys/macp nil))
+  (when +tree-sitter-latex-load-path
+    (tree-sitter-load 'latex +tree-sitter-latex-load-path)
+    (add-to-list 'tree-sitter-major-mode-language-alist '(latex-mode . latex))))
 
 (global-tree-sitter-mode)
 (add-hook 'tree-sitter-after-on-hook 'tree-sitter-hl-mode)

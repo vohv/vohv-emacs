@@ -1,5 +1,7 @@
 ;;; -*- lexical-binding: t; -*-
-
+(straight-use-package 'exec-path-from-shell)
+(when (memq window-system '(mac ns x))
+  (exec-path-from-shell-initialize))
 (require 'init-no-littering)
 (require 'init-utils)
 (require 'init-theme)
@@ -26,6 +28,7 @@
 (require 'init-tree-sitter)
 (require 'init-grammatical-edit)
 (require 'init-cmake)
+(require 'init-osx-keys)
 
 (defvar +org nil)
 (defvar +rime nil)
