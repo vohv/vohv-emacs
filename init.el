@@ -24,7 +24,7 @@
 (require 'init-misc)
 (require 'init-scheme)
 (require 'init-latex)
-(require 'init-tab-bar)
+;; (require 'init-tab-bar)
 (require 'init-tree-sitter)
 (require 'init-grammatical-edit)
 (require 'init-cmake)

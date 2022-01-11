@@ -42,13 +42,17 @@
 
 ;;; theme
 
-
+(straight-use-package 'nord-theme)
 (require 'joker-theme)
 (require 'printed-theme)
 (require 'minidark-theme)
+(require 'nord-theme)
 
-(if (window-system)
-    (load-theme 'printed t)
-  (load-theme 'minidark t))
+(if (daemonp)
+    (add-hook 'after-make-frame-functions
+        (lambda (frame)
+            (with-selected-frame frame
+                (load-theme 'printed t))))
+    (load-theme 'printed t))
 
 (provide 'init-theme)

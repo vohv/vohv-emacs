@@ -40,7 +40,6 @@
 (defun my--push-point-to-xref-marker-stack (&rest r)
   (xref-push-marker-stack (point-marker)))
 (dolist (func '(find-function
-                projectile-grep
                 citre-jump
                 consult-imenu
                 consult-ripgrep

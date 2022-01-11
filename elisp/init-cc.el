@@ -11,7 +11,7 @@
 (defvar flycheck-clangcheck-build-path "build")
 
 (defun flycheck-clangcheck-find-project-root (checker)
-  (projectile-project-root))
+  (+project-root))
 (flycheck-define-checker c/c++-clang-check
   "A C/C++ syntax checker using Clang.
 

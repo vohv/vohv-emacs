@@ -1,7 +1,9 @@
 ;;; -*- lexical-binding: t -*-
 
 (straight-use-package 'symbol-overlay)
-(dolist (hook '(prog-mode-hook html-mode-hook yaml-mode-hook conf-mode-hook))
+(dolist (hook '(
+                ;; prog-mode-hook
+                html-mode-hook yaml-mode-hook conf-mode-hook))
   (add-hook hook 'symbol-overlay-mode))
 (with-eval-after-load "symbol-overlay"
   (define-key symbol-overlay-mode-map (kbd "M-i") 'symbol-overlay-put)

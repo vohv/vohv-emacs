@@ -1,6 +1,5 @@
 ;;; -*- lexical-binding: t -*-
 
-(straight-use-package 'projectile)
 (straight-use-package 'find-file-in-project)
 (straight-use-package 'project)
 
@@ -36,9 +35,28 @@
 (require 'find-file-in-project)
 
 (with-eval-after-load "find-file-in-project"
-  (require 'projectile)
   (when (executable-find "fd")
     (setq ffip-use-rust-fd t))
-  (setq ffip-project-root-function #'projectile-project-root))
+  (setq ffip-project-root-function #'+project-root))
+
+(defun +project-root ()
+  (when-let* ((pr (project-current)))
+    (cdr pr)))
+
+(defun +project-try-local (dir)
+  "Determine if DIR is a non-Git project."
+  (catch 'ret
+    (let ((pr-flags '((".project")
+                      ("go.mod" "Cargo.toml" "project.clj" "pom.xml" "package.json") ;; higher priority
+                      ("Makefile" "README.org" "README.md"))))
+      (dolist (current-level pr-flags)
+        (dolist (f current-level)
+          (when-let ((root (locate-dominating-file dir f)))
+            (throw 'ret (cons 'local root))))))))
+
+(cl-defmethod project-root ((project (head local)))
+  (cdr project))
+
+(push #'+project-try-local project-find-functions)
 
 (provide 'init-project)

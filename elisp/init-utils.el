@@ -28,22 +28,26 @@ Result depends on syntax table's comment character."
 
 (defvar +smart-file-name-cache nil)
 
+(defun +project-root-dir ()
+  (when-let* ((pc (project-current)))
+    (project-root pc)))
+
 (defun +smart-file-name ()
   "Get current file name, if we are in project, the return relative path to the project root, otherwise return absolute file path.
 This function is slow, so we have to use cache."
-  (let ((vc-dir (vc-root-dir))
+  (let ((project-dir (+project-root-dir))
         (bfn (buffer-file-name (current-buffer))))
     (cond
-     ((and bfn vc-dir)
+     ((and bfn project-dir)
       (concat
        (propertize
         (car
          (reverse
-          (split-string (string-trim-right vc-dir "/") "/")))
+          (split-string (string-trim-right project-dir "/") "/")))
         'face
         'bold)
        "/"
-       (file-relative-name bfn vc-dir)))
+       (file-relative-name bfn project-dir)))
      (bfn bfn)
      (t (buffer-name)))))
 

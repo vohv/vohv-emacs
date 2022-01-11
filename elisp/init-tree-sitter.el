@@ -1,11 +1,14 @@
 ;;; -*- lexical-binding: t -*-
 
-(straight-use-package 'tree-sitter)
+(straight-use-package '(tree-sitter
+			            :host github
+			            :repo "emacs-tree-sitter/elisp-tree-sitter"
+                        :branch "master"))
 (straight-use-package 'tree-sitter-langs)
 
 (when-let* ((distr (+which-linux-distribution)))
   (when (string-match-p "CentOS 7" (+which-linux-distribution))
-    (setq tsc-dyn-dir (no-littering-expand-etc-file-name "tree-sitter/bin/CentOS7"))))
+    (setq tsc-dyn-get-from '(:compilation))))
 
 (defvar +tree-sitter-elisp-load-path nil)
 (defvar +tree-sitter-scheme-load-path nil)
